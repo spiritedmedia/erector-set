@@ -1,6 +1,14 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+# Make sure Vagrant plugins are installed
+# via http://matthewcooper.net/2015/01/15/automatically-installing-vagrant-plugin-dependencies/
+required_plugins = %w( vagrant-hostsupdater )
+required_plugins.each do |plugin|
+    exec "vagrant plugin install #{plugin};vagrant #{ARGV.join(" ")}" unless Vagrant.has_plugin? plugin || ARGV[0] == 'plugin'
+end
+
+# Store the vagrant directory as a variable
 vagrant_dir = File.expand_path(File.dirname(__FILE__))
 
 Vagrant.configure("2") do |config|
