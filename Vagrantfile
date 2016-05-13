@@ -135,6 +135,7 @@ Vagrant.configure("2") do |config|
     # Copy the easyengine conf file to the VM
     # config.vm.provision "file", source: "config/ee.conf", destination: "~/ee.conf"
     config.vm.provision "shell", path: "config/easyengine.sh"
+    config.vm.provision "shell", path: "config/build-tools.sh"
     # config.vm.synced_folder "logs/", "/var/log/easyengine", owner: "root", group: "root"
 
     #
