@@ -13,6 +13,9 @@ function divider() {
 
 if ! command_exists ee ; then
 
+    divider "Installing Unattended Upgrades"
+    sudo apt install unattended-upgrades
+
     if ! command_exists git ; then
         divider "Installing Git"
         # We need git installeed before we can set our name and email
