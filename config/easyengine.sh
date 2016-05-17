@@ -43,5 +43,26 @@ if ! command_exists ee ; then
     divider "IP Whitelisting for the dev tools on port 22222"
     # Whitelist the entire subnet because... why not?
     sudo ee secure --ip 192.168.33.0/24 --quiet
+
+    # Move nginx conf files into place for each mapped domain
+
+    divider "Modifying wp-config.php"
+    cd /var/www/spiritedmedia.dev/
+    # define SUNRISE and set to true. via https://tomjn.com/2014/03/01/wordpress-bash-magic/
+    sudo sed -i "/define( 'BLOG_ID_CURRENT_SITE', 1 );/a define( 'SUNRISE', true );" wp-config.php
+    # define the redis server array for WP Redis plugin
+    sudo sed -i "/define( 'SUNRISE', true );/a \$redis_server = array( 'host' => '127.0.0.1', 'port' => 6379 );" wp-config.php
+
+    # include a local wp-config file if it exists...
+    # if ( file_exists( dirname(__FILE__) . '/htdocs/wp-config-local.php') ) {
+    #   include dirname(__FILE__) . '/htdocs/wp-config-local.php';
+    # }
+    sudo sed -i "/define( 'SUNRISE', true );/a if ( file_exists( dirname(__FILE__) . '/htdocs/wp-config-local.php') ) { include dirname(__FILE__) . '/htdocs/wp-config-local.php'; }" wp-config.php
+
+    # Remove WP_DEBUG from wp-config.php file
+    # Looking for define('WP_DEBUG', false);
+    sudo sed -i "s/define('WP_DEBUG', false);//g" wp-config.php
+
+    divider "All done. Restarting the stack."
     sudo ee stack restart
 fi
