@@ -135,8 +135,13 @@ Vagrant.configure("2") do |config|
     # Copy the easyengine conf file to the VM
     # config.vm.provision "file", source: "config/ee.conf", destination: "~/ee.conf"
     config.vm.provision "shell", path: "config/easyengine.sh"
-    config.vm.provision "shell", path: "config/build-tools.sh"
+    # config.vm.provision "shell", path: "config/build-tools.sh"
     # config.vm.synced_folder "logs/", "/var/log/easyengine", owner: "root", group: "root"
+
+    # Logs
+    # TODO: Make log files accessible to the host for use in apps like Console. Can't figure this out right now.
+    # This probably has something to do with symlinks
+    # config.vm.synced_folder "logs/", "/var/www/spiritedmedia.dev/logs", :owner => "www-data", :group => "www-data", :mount_options => [ "dmode=775","fmode=774" ]
 
     #
     # /srv/www/
@@ -145,7 +150,7 @@ Vagrant.configure("2") do |config|
       # inside the VM will be created that acts as the default location for nginx sites. Put all
       # of your project files here that you want to access through the web server
       if vagrant_version >= "1.3.0"
-        config.vm.synced_folder "public/", "/var/www/spiritedmedia.dev/htdocs", :owner => "www-data", :group => "www-data", :mount_options => [ "dmode=775", "fmode=774" ]
+        config.vm.synced_folder "public/", "/var/www/spiritedmedia.dev/htdocs", :owner => "www-data", :group => "www-data", :mount_options => [ "dmode=775","fmode=774" ]
       else
         config.vm.synced_folder "public/", "/var/www/spiritedmedia.dev/htdocs", :owner => "www-data", :group => "www-data", :extra => 'dmode=775,fmode=774'
       end
