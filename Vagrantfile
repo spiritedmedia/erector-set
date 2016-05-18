@@ -3,6 +3,7 @@
 
 # Make sure Vagrant plugins are installed
 # via http://matthewcooper.net/2015/01/15/automatically-installing-vagrant-plugin-dependencies/
+# Vagrant HostUpdater updates the host file on the host machine so fancy hostnames work automagically
 required_plugins = %w( vagrant-hostsupdater )
 required_plugins.each do |plugin|
     exec "vagrant plugin install #{plugin};vagrant #{ARGV.join(" ")}" unless Vagrant.has_plugin? plugin || ARGV[0] == 'plugin'
@@ -132,11 +133,11 @@ Vagrant.configure("2") do |config|
   end
 
     config.vm.hostname = "spiritedmedia.dev"
-    # Copy the easyengine conf file to the VM
-    # config.vm.provision "file", source: "config/ee.conf", destination: "~/ee.conf"
+    # Copy nginx config file to the VM
+    config.vm.provision "file", source: "config/nginx-configs", destination: "~/nginx-configs"
     config.vm.provision "shell", path: "config/easyengine.sh"
     # config.vm.provision "shell", path: "config/build-tools.sh"
-    # config.vm.synced_folder "logs/", "/var/log/easyengine", owner: "root", group: "root"
+    # config.vm.synced_folder "logs/", "/var/log/", owner: "root", group: "root"
 
     # Logs
     # TODO: Make log files accessible to the host for use in apps like Console. Can't figure this out right now.

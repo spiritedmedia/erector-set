@@ -44,7 +44,19 @@ if ! command_exists ee ; then
     # Whitelist the entire subnet because... why not?
     sudo ee secure --ip 192.168.33.0/24 --quiet
 
+    divider "Moving nginx confs into place"
     # Move nginx conf files into place for each mapped domain
+    cd nginx-configs/
+    filenames=(*.dev)
+    sudo mv *.dev /etc/nginx/sites-available/
+    for filename in "${filenames[@]}"
+    do
+        sudo ln -s /etc/nginx/sites-available/$filename /etc/nginx/sites-enabled/$filename
+    	echo "$filename symlinked";
+    done
+    cd ../
+    sudo rm -rf nginx-configs/
+
 
     divider "Modifying wp-config.php"
     cd /var/www/spiritedmedia.dev/
@@ -62,6 +74,13 @@ if ! command_exists ee ; then
     # Remove WP_DEBUG from wp-config.php file
     # Looking for define('WP_DEBUG', false);
     sudo sed -i "s/define('WP_DEBUG', false);//g" wp-config.php
+
+    divider "Setting up additional sites"
+    # Use WP-CLI to set-up our default sites
+    cd /var/www//spiritedmedia.dev/htdocs/
+    sudo -u www-data wp site create --slug="billypenn" --title="Billy Penn" --email="product@billypenn.com"
+    sudo -u www-data wp site create --slug="theincline" --title="The Incline" --email="product@billypenn.com"
+    sudo su
 
     divider "All done. Restarting the stack."
     sudo ee stack restart
