@@ -11,15 +11,19 @@ This will set-up a local instance of the Spiriated Media multisite.
 1. Install [Homebrew](http://brew.sh/)
 1. Install [Node.js & NPM](https://changelog.com/install-node-js-with-homebrew-on-os-x/)
 2. Install [Bower](https://coolestguidesontheplanet.com/installingbower-on-osx/): `npm install -g bower`
-3. Install (Bundler)[http://bundler.io/]: `gem install bundler`
-4. Install Composer
+3. Install [Bundler](http://bundler.io/): `gem install bundler`
+4. Install [Composer](https://getcomposer.org/): `brew install composer` 
 5. Install [Grunt](http://gruntjs.com/): `npm install -g grunt-cli`
+
+Note: You'll need the [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) plugin but Vagrant will install it for you automatically.
+
+## Build the box
 1. Clone the repo `git clone https://github.com/spiritedmedia/erector-set.git`
 1. Make install.sh executeable: `chmod +x install.sh`
 1. Run it! `./install.sh`
 1. Visit [spiritedmedia.dev](http://spiritedmedia.dev)
 
-Note: You'll need the [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) plugin but Vagrant will install it for you automatically.
+
 
 ## Details
 - WordPress Admin credentials: `admin`/`admin`
