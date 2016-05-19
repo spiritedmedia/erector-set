@@ -60,6 +60,9 @@ else
     git clone --recursive $REPO_URL public/
 fi
 
+# Destroy the box if it is running
+vagrant destroy --force
+
 # Update the box
 vagrant box update
 
