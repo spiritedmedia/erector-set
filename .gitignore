@@ -1,3 +1,2 @@
 /.vagrant/
-public/*
-!public/.gitkeep
+/public/
