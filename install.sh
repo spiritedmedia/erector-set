@@ -1,5 +1,7 @@
 #! /bin/bash
 
+REPO_URL="git@github.com:spiritedmedia/pedestal-beta.git"
+
 function command_exists () {
     type "$1" &> /dev/null ;
 }
@@ -28,27 +30,34 @@ fi
 chmod +x utilities/error-logging.sh
 chmod +x utilities/get-db-info.sh
 
+## Make sure the /public directory exists
+if [ ! -d "public" ]; then
+    mkdir public/
+fi
+
 # Check if the /public directory is empty or not
 if [ "$(ls -A public/)" ]; then
     echo "The /public directory is not empty."
     while true; do
-    read -p "Delete everything in /public and start over? (y/n): " yn
-    case $yn in
-        [Yy]* )
-            rm -rf public/
-            # Clone our /wp-content/ repo into /public/
-            git clone --recursive git@github.com:spiritedmedia/pedestal-beta.git public/
-            break
-            ;;
-        [Nn]* )
-            echo "Skipping...";
-            break
-            ;;
-        * ) echo
-            "Please answer yes or no."
-            ;;
-    esac
-done
+        read -p "Delete everything in /public and start over? (y/n): " yn
+        case $yn in
+            [Yy]* )
+                rm -rf public/
+                # Clone our /wp-content/ repo into /public/
+                git clone --recursive $REPO_URL public/
+                break
+                ;;
+            [Nn]* )
+                echo "Skipping...";
+                break
+                ;;
+            * ) echo
+                "Please answer yes or no."
+                ;;
+        esac
+    done
+else
+    git clone --recursive $REPO_URL public/
 fi
 
 # Update the box
