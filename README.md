@@ -1,38 +1,113 @@
 # Spirited Media - Erector Set
-This will set-up a local instance of the Spiriated Media multisite.
+This will set-up a local instance of the Spiriated Media multisite. Assumes you're using a Mac.
 
 ## Install Software
 
-1. Start with any local operating system such as Mac OS X, Linux, or Windows.
+### For Running the Virtual Machine 
 1. Install [VirtualBox 5.0.x](https://www.virtualbox.org/wiki/Downloads)
 1. Install [Vagrant 1.8.x](https://www.vagrantup.com/downloads.html)
     * `vagrant` will now be available as a command in your terminal, try it out.
     * ***Note:*** If Vagrant is already installed, use `vagrant -v` to check the version. You may want to consider upgrading if a much older version is in use.
-1. Install [Homebrew](http://brew.sh/)
-1. Install [Node.js & NPM](https://changelog.com/install-node-js-with-homebrew-on-os-x/)
-2. Install [Bower](https://coolestguidesontheplanet.com/installingbower-on-osx/): `npm install -g bower`
-3. Install [Bundler](http://bundler.io/): `gem install bundler`
-4. Install [Composer](https://getcomposer.org/): `brew install composer` 
-5. Install [Grunt](http://gruntjs.com/): `npm install -g grunt-cli`
 
-Note: You'll need the [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) plugin but Vagrant will install it for you automatically.
+_Note: You'll need the [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) plugin but Vagrant will install it for you automatically :)_
+
+### For building the theme
+
+Pre-processing happens on the host machine (aka your computer)
+ 
+1. Install [Homebrew](http://brew.sh/): `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+`
+1. Install [Node.js & NPM](https://changelog.com/install-node-js-with-homebrew-on-os-x/): `brew install node`
+1. Install [Grunt](http://gruntjs.com/): `npm install -g grunt-cli`
+1. Install [Bower](https://coolestguidesontheplanet.com/installingbower-on-osx/): `npm install -g bower`
+1. Install [Bundler](http://bundler.io/): `gem install bundler`
+1. Install [Composer](https://getcomposer.org/): `brew install composer` 
+
+### For directly connecting to the database
+
+1. Download and install [Sequel Pro](http://www.sequelpro.com/)
 
 ## Build the box
 1. Clone the repo `git clone https://github.com/spiritedmedia/erector-set.git`
 1. Make install.sh executeable: `chmod +x install.sh`
 1. Run it! `./install.sh`
+1. Wait 5-10 minutes
 1. Visit [spiritedmedia.dev](http://spiritedmedia.dev)
+1. Login via [spiritedmedia.dev/wp-admin](http://spiritedmedia.dev/wp-admin/)
+	- Username: `admin`
+	- Password: `admin`
+
+## Connect to the Database
+In the directory you cloned Erector Set into...
+
+1. Navigate to the `utilities` directory: `cd utilities/`
+1. Get the database credentials: `./get-db-info.sh`
+1. Note the `DB_USER`, `DB_PASS` values displayed
+
+<img width="682" alt="db-info-output" src="https://cloud.githubusercontent.com/assets/867430/15404473/b0626ad4-1dcb-11e6-8cbd-a3038663d7df.png">
+
+1. Open [Sequel Pro](http://www.sequelpro.com/)
+2. Switch to the SSH tab to show SSH fields
+3. Enter the following details
+
+| Name         | Value             |
+|--------------|-------------------|
+| MySQL Host   |  127.0.0.1        |
+| Username     | `DB_USER`         |
+| Password     | `DB_PASS`         |
+| Database     | spiritedmedia_dev |
+| Port         | 3306 (default)    |
+| SSH Host     | spiritedmedia.dev |
+| SSH User     | vagrant           |
+| SSH Password | vagrant           |
+| SSH Port     | <leave blank>     |
+
+<img width="912" alt="screen shot 2016-05-20 at 12 19 02 pm" src="https://cloud.githubusercontent.com/assets/867430/15434500/217ce97e-1e85-11e6-8acf-6efa3c757b29.png">
+
+## wp-config-local.php
+If you want to customize values in `wp-config.php` add a file called `wp-config-local.php` in the root of the `public/` directory. This file will get included by `wp-config.php` automagically. 
+
+Recommended items to add to your `wp-config-local.php` file:
+
+```
+define( 'WP_DEBUG', true );
+if ( WP_DEBUG ) {
+	// For analyzing database queries i.e. the Debug Bar plugin 
+	define( 'SAVEQUERIES', true );
+	
+	// Enable debug logging to the /wp-content/debug.log file
+	define( 'WP_DEBUG_LOG', true );
+	
+	// Disable the 'trash', posts will be deleted immediately 
+	define( 'EMPTY_TRASH_DAYS', 0 );
+}
+```
+More constants can be found on the [wp-config.php codex page](https://codex.wordpress.org/Editing_wp-config.php)
+
+## Error Logging
+In the directory you cloned Erector Set into...
+
+1. Navigate to the `utilities` directory: `cd utilities/`
+1. Run: `./error-logging.sh`
 
 
+## Domains
+
+The multiste is set-up to use subdomains for each site. We map domain names to a site via the [Mercator plugin](https://github.com/humanmade/Mercator)
+
+| Site ID | Mapped Domain                           | Unmapped Domain                                                     |
+|---------|-----------------------------------------|---------------------------------------------------------------------|
+| 1       | --                                      | [spiritedmedia.dev](spiritedmedia.dev)                              |
+| 2       | [billypenn.dev](http://billypenn.dev)   | [billypenn.spiritedmedia.dev](http://billypenn.spiritedmedia.dev)   |
+| 3       | [theincline.dev](http://theincline.dev) | [theincline.spiritedmedia.dev](http://theincline.spiritedmedia.dev) |
 
 ## Details
-- WordPress Admin credentials: `admin`/`admin`
 - IP: `192.168.33.10`
-- Domain: `spirited:media.dev`
+- Domain: `spiritedmedia.dev`
 - Dev tools: `spiritedmedia.dev:22222`
 - Path inside VM: `/var/www/spiritedmedia.dev`
 
-## Documentation
+## Credits
 - [EasyEngine.io](https://easyengine.io/)
 
 Props to the following repos that I borrowed stuff from:
