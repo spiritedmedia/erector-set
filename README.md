@@ -97,7 +97,7 @@ The multiste is set-up to use subdomains for each site. We map domain names to a
 
 | Site ID | Mapped Domain                           | Unmapped Domain                                                     |
 |---------|-----------------------------------------|---------------------------------------------------------------------|
-| 1       | --                                      | [spiritedmedia.dev](spiritedmedia.dev)                              |
+| 1       | --                                      | [spiritedmedia.dev](http://spiritedmedia.dev)                       |
 | 2       | [billypenn.dev](http://billypenn.dev)   | [billypenn.spiritedmedia.dev](http://billypenn.spiritedmedia.dev)   |
 | 3       | [theincline.dev](http://theincline.dev) | [theincline.spiritedmedia.dev](http://theincline.spiritedmedia.dev) |
 
