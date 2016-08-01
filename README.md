@@ -29,8 +29,7 @@ Pre-processing happens on the host machine (aka your computer)
 
 ## Build the box
 1. Clone the repo `git clone https://github.com/spiritedmedia/erector-set.git`
-1. Make install.sh executeable: `chmod +x install.sh`
-1. Run it! `./install.sh`
+1. Run `./install.sh`
 1. Wait 5-10 minutes
 1. Visit [spiritedmedia.dev](http://spiritedmedia.dev)
 1. Login via [spiritedmedia.dev/wp-admin](http://spiritedmedia.dev/wp-admin/)
