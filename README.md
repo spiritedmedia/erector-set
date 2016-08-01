@@ -1,5 +1,5 @@
 # Spirited Media - Erector Set
-This will set-up a local instance of the Spiriated Media multisite. Assumes you're using a Mac.
+This will set-up a local instance of the Spirited Media multisite. Assumes you're using a Mac.
 
 ## Install Software
 
