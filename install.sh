@@ -1,6 +1,6 @@
 #! /bin/bash
 
-REPO_URL="git@github.com:spiritedmedia/pedestal-beta.git"
+REPO_URL="git@github.com:spiritedmedia/pedestal.git"
 
 function command_exists () {
     type "$1" &> /dev/null ;
