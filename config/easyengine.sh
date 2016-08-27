@@ -63,7 +63,9 @@ if ! command_exists ee ; then
     # define SUNRISE and set to true. via https://tomjn.com/2014/03/01/wordpress-bash-magic/
     sudo sed -i "/define( 'BLOG_ID_CURRENT_SITE', 1 );/a define( 'SUNRISE', true );" wp-config.php
     # define the redis server array for WP Redis plugin
-    sudo sed -i "/define( 'SUNRISE', true );/a \$redis_server = array( 'host' => '127.0.0.1', 'port' => 6379 );" wp-config.php
+    # We intentionally break the Redis connection to disable Redis caching locally which is an ugly hack
+    # The real port is 6379
+    sudo sed -i "/define( 'SUNRISE', true );/a \$redis_server = array( 'host' => '127.0.0.1', 'port' => 63799 );" wp-config.php
 
     # include a local wp-config file if it exists...
     # if ( file_exists( dirname(__FILE__) . '/htdocs/wp-config-local.php') ) {
