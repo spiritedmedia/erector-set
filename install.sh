@@ -1,4 +1,4 @@
-#! /bin/bash
+#!/bin/bash
 
 REPO_URL="git@github.com:spiritedmedia/pedestal.git"
 
@@ -30,11 +30,6 @@ fi
 chmod +x utilities/error-logging.sh
 chmod +x utilities/get-db-info.sh
 
-## Make sure the /public directory exists
-if [ ! -d "public" ]; then
-    mkdir public/
-fi
-
 # Check if the /public directory is empty or not
 if [ "$(ls -A public/)" ]; then
     echo "The /public directory is not empty."
@@ -43,8 +38,7 @@ if [ "$(ls -A public/)" ]; then
         case $yn in
             [Yy]* )
                 rm -rf public/
-                # Clone our /wp-content/ repo into /public/
-                git clone --recursive $REPO_URL public/
+                mkdir public/
                 break
                 ;;
             [Nn]* )
@@ -56,8 +50,11 @@ if [ "$(ls -A public/)" ]; then
                 ;;
         esac
     done
-else
-    git clone --recursive $REPO_URL public/
+fi
+
+## Make sure the /public directory exists
+if [ ! -d "public" ]; then
+    mkdir public/
 fi
 
 # Destroy the box if it is running
@@ -69,11 +66,29 @@ vagrant box update
 # Build the box
 vagrant up
 
+# Remove a .git/ directory if it is already present
+if [ -d "public/.git/" ]; then
+    echo "-----------------------------"
+    echo "Removing previous .git/ directory..."
+    rm -rf public/.git/
+fi
+
+echo "-----------------------------"
+echo "Cloning repo and moving files into place..."
+
+git clone --recursive $REPO_URL tmp/
+mv tmp/.git public/
+cd public/
+git reset --hard origin/master
+cd ../
+rm -rf tmp/
 # Add a debug.log file for when define('debuglog') is set to true
 cd public/wp-content/
 touch debug.log
 
 # Run the bin/install.sh script in the root of the Pedestal repo to install dependencies and build the themes
+echo "-----------------------------"
+echo "Building the themes..."
 cd ../
 source bin/install.sh
 
