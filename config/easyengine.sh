@@ -25,7 +25,7 @@ if ! command_exists ee ; then
 
     divider "Setting Global Git Config"
     # EasyEngine needs our name and email for Git reasons, without it the script will fail
-    sudo git config --global user.email "product@billypenn.com"
+    sudo git config --global user.email "systems@spiritedmedia.com"
     sudo git config --global user.name "Spirited Media"
 
     divider "Installing EasyEngine"
@@ -37,7 +37,7 @@ if ! command_exists ee ; then
     sudo ee stack install --phpredisadmin
 
     divider "Setting up spiritedmedia.dev multisite"
-    sudo ee site create spiritedmedia.dev --wpsubdomain --php7 --user=admin --pass=admin --email=product@billypenn.com --experimental
+    sudo ee site create spiritedmedia.dev --wpsubdomain --php7 --user=admin --pass=admin --email=systems@spiritedmedia.com --experimental
 
     # Allow the dev tools from our host IP without requiring auth
     divider "IP Whitelisting for the dev tools on port 22222"
@@ -78,8 +78,8 @@ if ! command_exists ee ; then
     divider "Setting up additional sites"
     # Use WP-CLI to set-up our default sites
     cd /var/www//spiritedmedia.dev/htdocs/
-    sudo -u www-data wp site create --slug="billypenn" --title="Billy Penn" --email="product@billypenn.com"
-    sudo -u www-data wp site create --slug="theincline" --title="The Incline" --email="product@billypenn.com"
+    sudo -u www-data wp site create --slug="billypenn" --title="Billy Penn" --email="systems@spiritedmedia.com"
+    sudo -u www-data wp site create --slug="theincline" --title="The Incline" --email="systems@spiritedmedia.com"
     sudo su
 
     divider "All done. Restarting the stack."
