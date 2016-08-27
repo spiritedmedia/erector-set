@@ -3,7 +3,7 @@ This will set-up a local instance of the Spirited Media multisite. Assumes you'r
 
 ## Install Software
 
-### For Running the Virtual Machine 
+### For Running the Virtual Machine
 1. Install [VirtualBox 5.0.x](https://www.virtualbox.org/wiki/Downloads)
 1. Install [Vagrant 1.8.x](https://www.vagrantup.com/downloads.html)
     * `vagrant` will now be available as a command in your terminal, try it out.
@@ -14,14 +14,14 @@ _Note: You'll need the [vagrant-hostsupdater](https://github.com/cogitatio/vagra
 ### For building the theme
 
 Pre-processing happens on the host machine (aka your computer)
- 
+
 1. Install [Homebrew](http://brew.sh/): `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 `
 1. Install [Node.js & NPM](https://changelog.com/install-node-js-with-homebrew-on-os-x/): `brew install node`
 1. Install [Grunt](http://gruntjs.com/): `npm install -g grunt-cli`
 1. Install [Bower](https://coolestguidesontheplanet.com/installingbower-on-osx/): `npm install -g bower`
 1. Install [Bundler](http://bundler.io/): `gem install bundler`
-1. Install [Composer](https://getcomposer.org/): `brew install composer` 
+1. Install [Composer](https://getcomposer.org/): `brew install composer`
 
 ### For directly connecting to the database
 
@@ -64,30 +64,35 @@ In the directory you cloned Erector Set into...
 <img width="912" alt="screen shot 2016-05-20 at 12 19 02 pm" src="https://cloud.githubusercontent.com/assets/867430/15434500/217ce97e-1e85-11e6-8acf-6efa3c757b29.png">
 
 ## wp-config-local.php
-If you want to customize values in `wp-config.php` add a file called `wp-config-local.php` in the root of the `public/` directory. This file will get included by `wp-config.php` automagically. 
+If you want to customize values in `wp-config.php` add a file called `wp-config-local.php` in the root of the `public/` directory. This file will get included by `wp-config.php` automagically.
 
 Recommended items to add to your `wp-config-local.php` file:
 
 ```
 define( 'WP_DEBUG', true );
 if ( WP_DEBUG ) {
-	// For analyzing database queries i.e. the Debug Bar plugin 
+	// For analyzing database queries i.e. the Debug Bar plugin
 	define( 'SAVEQUERIES', true );
-	
+
 	// Enable debug logging to the /wp-content/debug.log file
 	define( 'WP_DEBUG_LOG', true );
-	
-	// Disable the 'trash', posts will be deleted immediately 
+
+	// Disable the 'trash', posts will be deleted immediately
 	define( 'EMPTY_TRASH_DAYS', 0 );
 }
 ```
 More constants can be found on the [wp-config.php codex page](https://codex.wordpress.org/Editing_wp-config.php)
 
 ## Error Logging
+
+### debug.log
+If you defined `WP_DEBUG_LOG` to `true` in your `wp-config-local.php` file you can watch `public/wp-content/debug.log` in something like Console.app.
+
+### Direct Access to Error Logs
 In the directory you cloned Erector Set into...
 
 1. Navigate to the `utilities` directory: `cd utilities/`
-1. Run: `./error-logging.sh`
+1. Run: `./error-logging.sh` which shows WordPress and PHP error logs
 
 
 ## Domains
