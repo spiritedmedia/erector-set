@@ -73,13 +73,9 @@ vagrant up
 cd public/wp-content/
 touch debug.log
 
-# Go to pedestal directory and build the theme
-cd themes/pedestal/
-npm install
-bower install
-bundle install
-composer update -o
-grunt build
+# Run the bin/install.sh script in the root of the Pedestal repo to install dependencies and build the themes
+cd ../
+source bin/install.sh
 
 # And it's done
 end_seconds="$(date +%s)"
