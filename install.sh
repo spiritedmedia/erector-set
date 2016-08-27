@@ -88,10 +88,6 @@ cd public/
 touch wp-config-local.php
 # TODO: Set some smart wp-config default constants maybe?
 
-# Add a debug.log file for when define('debuglog') is set to true
-cd wp-content/
-touch debug.log
-
 # Run the bin/install.sh script in the root of the Pedestal repo to install dependencies and build the themes
 echo "-----------------------------"
 echo "Building the themes..."
