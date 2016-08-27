@@ -73,6 +73,9 @@ if ! command_exists ee ; then
     # }
     sudo sed -i "/define( 'SUNRISE', true );/a if ( file_exists( dirname(__FILE__) . '/htdocs/wp-config-local.php') ) { include dirname(__FILE__) . '/htdocs/wp-config-local.php'; }" wp-config.php
 
+    # Remove a duplicate define('WP_ALLOW_MULTISITE', true);
+    sudo sed -i "s/define('WP_ALLOW_MULTISITE', true);//g" wp-config.php
+
     # Remove WP_DEBUG from wp-config.php file
     # Looking for define('WP_DEBUG', false);
     sudo sed -i "s/define('WP_DEBUG', false);//g" wp-config.php
