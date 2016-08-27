@@ -87,6 +87,16 @@ if ! command_exists ee ; then
     sudo -u www-data wp site create --slug="theincline" --title="The Incline" --email="systems@spiritedmedia.com"
     sudo su
 
+    divider "Fix random memcache warnings when using WP CLI???"
+    # See https://github.com/EasyEngine/easyengine/issues/741#issuecomment-229497541
+    # PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20151012/memcached.so' - /usr/lib/php/20151012/memcached.so: undefined symbol: php_msgpack_serialize in Unknown on line 0
+
+    #Disable and enable again module igbinary to resolve redis
+    sudo phpdismod igbinary && phpenmod igbinary
+
+    # For memcached, disable memcached module, and make sure memcache is enabled
+    sudo phpdismod memcached && phpenmod memcache
+
     divider "All done. Restarting the stack."
     sudo ee stack restart
 fi
