@@ -91,8 +91,8 @@ touch wp-config-local.php
 # Run the bin/install.sh script in the root of the Pedestal repo to install dependencies and build the themes
 echo "-----------------------------"
 echo "Building the themes..."
-cd ../
 source bin/install.sh
+grunt build
 
 # And it's done
 end_seconds="$(date +%s)"
