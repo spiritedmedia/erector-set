@@ -3,8 +3,8 @@
 
 # Make sure Vagrant plugins are installed
 # via http://matthewcooper.net/2015/01/15/automatically-installing-vagrant-plugin-dependencies/
-# Vagrant HostUpdater updates the host file on the host machine so fancy hostnames work automagically
-required_plugins = %w( vagrant-hostsupdater )
+# Vagrant Host Manager updates the host file on the host machine so fancy hostnames work automagically
+required_plugins = %w( vagrant-hostmanager )
 required_plugins.each do |plugin|
     exec "vagrant plugin install #{plugin};vagrant #{ARGV.join(" ")}" unless Vagrant.has_plugin? plugin || ARGV[0] == 'plugin'
 end
@@ -83,35 +83,6 @@ Vagrant.configure("2") do |config|
     override.vm.box = "ericmann/trusty64"
     end
 
-    # Local Machine Hosts
-  #
-  # If the Vagrant plugin hostsupdater (https://github.com/cogitatio/vagrant-hostsupdater) is
-  # installed, the following will automatically configure your local machine's hosts file to
-  # be aware of the domains specified below. Watch the provisioning script as you may need to
-  # enter a password for Vagrant to access your hosts file.
-  #
-  # By default, we'll include the domains set up by VVV through the vvv-hosts file
-  # located in the www/ directory.
-  #
-  # Other domains can be automatically added by including a vvv-hosts file containing
-  # individual domains separated by whitespace in subdirectories of www/.
-  if defined?(VagrantPlugins::HostsUpdater)
-    # Recursively fetch the paths to all vvv-hosts files under the www/ directory.
-    paths = Dir[File.join(vagrant_dir, 'config', '**', 'hosts')]
-
-    # Parse the found vvv-hosts files for host names.
-    hosts = paths.map do |path|
-      # Read line from file and remove line breaks
-      lines = File.readlines(path).map(&:chomp)
-      # Filter out comments starting with "#"
-      lines.grep(/\A[^#]/)
-    end.flatten.uniq # Remove duplicate entries
-
-    # Pass the found host names to the hostsupdater plugin so it can perform magic.
-    config.hostsupdater.aliases = hosts
-    config.hostsupdater.remove_on_suspend = true
-  end
-
   # Private Network (default)
   #
   # A private network is created by default. This is the IP address through which your
@@ -132,7 +103,27 @@ Vagrant.configure("2") do |config|
     override.vm.network :private_network, id: "vvv_primary", ip: nil
   end
 
-    config.vm.hostname = "spiritedmedia.dev"
+  config.vm.hostname = "spiritedmedia.dev"
+
+  # Recursively fetch the paths to all vvv-hosts files under the www/ directory.
+  paths = Dir[File.join(vagrant_dir, 'config', '**', 'hosts')]
+
+  # Parse the found hosts files for host names.
+  hosts = paths.map do |path|
+    # Read line from file and remove line breaks
+    lines = File.readlines(path).map(&:chomp)
+    # Filter out comments starting with "#"
+    lines.grep(/\A[^#]/)
+  end.flatten.uniq # Remove duplicate entries
+
+  if Vagrant.has_plugin? 'vagrant-hostmanager'
+      config.hostmanager.enabled = true
+      config.hostmanager.manage_host = true
+      config.hostmanager.aliases = hosts
+  else
+      fail_with_message "vagrant-hostmanager missing, please install the plugin with this command:\nvagrant plugin install vagrant-hostmanager"
+  end
+
     # Copy nginx config file to the VM
     config.vm.provision "file", source: "config/nginx-configs", destination: "~/nginx-configs"
     config.vm.provision "shell", path: "config/easyengine.sh"
