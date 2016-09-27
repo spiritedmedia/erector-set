@@ -80,6 +80,7 @@ if ( WP_DEBUG ) {
 	// Disable the 'trash', posts will be deleted immediately
 	define( 'EMPTY_TRASH_DAYS', 0 );
 }
+define( 'WP_ENV', 'development' );
 ```
 More constants can be found on the [wp-config.php codex page](https://codex.wordpress.org/Editing_wp-config.php)
 
