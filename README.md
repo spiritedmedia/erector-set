@@ -21,7 +21,7 @@ Pre-processing happens on the host machine (aka your computer)
 1. Install [Grunt](http://gruntjs.com/): `npm install -g grunt-cli`
 1. Install [Bower](https://coolestguidesontheplanet.com/installingbower-on-osx/): `npm install -g bower`
 1. Install [Bundler](http://bundler.io/): `gem install bundler`
-1. Install [Composer](https://getcomposer.org/): `brew install composer`
+1. Install [Composer](https://getcomposer.org/): `brew install homebrew/php/composer`
 
 ### For directly connecting to the database
 
