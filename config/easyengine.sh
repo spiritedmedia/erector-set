@@ -70,8 +70,8 @@ if ! command_exists ee ; then
     divider "Setting up additional sites"
     # Use WP-CLI to set-up our default sites
     cd /var/www//spiritedmedia.dev/htdocs/
-    sudo -u www-data wp site create --slug="billypenn" --title="Billy Penn" --email="systems@spiritedmedia.com"
-    sudo -u www-data wp site create --slug="theincline" --title="The Incline" --email="systems@spiritedmedia.com"
+    # sudo -u www-data wp site create --slug="billypenn" --title="Billy Penn" --email="systems@spiritedmedia.com"
+    # sudo -u www-data wp site create --slug="theincline" --title="The Incline" --email="systems@spiritedmedia.com"
     sudo su
 
     divider "Modifying wp-config.php"
