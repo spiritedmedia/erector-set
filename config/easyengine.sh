@@ -81,7 +81,7 @@ if ! command_exists ee ; then
     # define the redis server array for WP Redis plugin
     # We intentionally break the Redis connection to disable Redis caching locally which is an ugly hack
     # The real port is 6379
-    sudo sed -i "/define( 'SUNRISE', true );/a \$redis_server = array( 'host' => '127.0.0.1', 'port' => 63799 );" wp-config.php
+    sudo sed -i "/define( 'SUNRISE', true );/a \$redis_server = array( 'host' => '127.0.0.1', 'port' => 6379 );" wp-config.php
 
     # include a local wp-config file if it exists...
     # if ( file_exists( dirname(__FILE__) . '/htdocs/wp-config-local.php') ) {
