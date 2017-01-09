@@ -69,20 +69,42 @@ If you want to customize values in `wp-config.php` add a file called `wp-config-
 Recommended items to add to your `wp-config-local.php` file:
 
 ```
+<?php
 define( 'WP_DEBUG', true );
 if ( WP_DEBUG ) {
-	// For analyzing database queries i.e. the Debug Bar plugin
-	define( 'SAVEQUERIES', true );
+    // For analyzing database queries i.e. the Debug Bar plugin
+    define( 'SAVEQUERIES', true );
 
-	// Enable debug logging to the /wp-content/debug.log file
-	define( 'WP_DEBUG_LOG', true );
+    // Enable debug logging to the /wp-content/debug.log file
+    define( 'WP_DEBUG_LOG', true );
 
-	// Disable the 'trash', posts will be deleted immediately
-	define( 'EMPTY_TRASH_DAYS', 0 );
+    // Disable the 'trash', posts will be deleted immediately
+    define( 'EMPTY_TRASH_DAYS', 0 );
 }
+
+// Script debugging
+if ( isset( $_GET['script-debug'] ) ) {
+    // Causes WordPress scripts to be included separately
+    define( 'CONCATENATE_SCRIPTS', false );
+    // Uses unminified scripts
+    define( 'SCRIPT_DEBUG', true );
+}
+
 define( 'WP_ENV', 'development' );
+
+// ActiveCampaign API Credentials
+define( 'ACTIVECAMPAIGN_URL', '***' );
+define( 'ACTIVECAMPAIGN_API_KEY', '***' );
+
+// AWS API Keys for AWS SES wp_mail() drop-in
+define( 'AWS_SES_WP_MAIL_REGION', '***' );
+define( 'AWS_SES_WP_MAIL_KEY', '***' );
+define( 'AWS_SES_WP_MAIL_SECRET', '***' );
 ```
-More constants can be found on the [wp-config.php codex page](https://codex.wordpress.org/Editing_wp-config.php)
+
+For values that are `***` ask a dev for the real credentails.
+
+More constants can be found on the [wp-config.php codex page](https://codex.wordpress.org/Editing_wp-config.php) or https://gist.github.com/MikeNGarrett/e20d77ca8ba4ae62adf5
 
 ## Error Logging
 
