@@ -10,14 +10,8 @@ function command_exists () {
 # end of this script.
 start_seconds="$(date +%s)"
 
-if ! command_exists npm ; then
-    echo "NPM isn't installed. You need that to build the theme."
-fi
-if ! command_exists bower ; then
-    echo "Bower isn't installed. You need that to build the theme."
-fi
-if ! command_exists bundle ; then
-    echo "Bundle isn't installed. You need that to build the theme."
+if ! command_exists yarn ; then
+    echo "Yarn isn't installed. You need that to build the theme."
 fi
 if ! command_exists composer ; then
     echo "Composer isn't installed. You need that to build the theme."
