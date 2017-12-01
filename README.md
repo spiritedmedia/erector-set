@@ -104,7 +104,7 @@ For values that are `***` ask a dev for the real credentails.
 More constants can be found on the [wp-config.php codex page](https://codex.wordpress.org/Editing_wp-config.php) or https://gist.github.com/MikeNGarrett/e20d77ca8ba4ae62adf5
 
 ## Credentials
-Post installation you will need to SSH in to the box and add our Google Service account credntials to `/var/www/spiritedmedia.dev/credentials/google-service-account-credentials.json`. The contents of this file should be stored in our 1Password vault.
+Post installation you will need to SSH in to the box and add our Google Service account credentials to `/var/www/spiritedmedia.dev/credentials/google-service-account-credentials.json`. The contents of this file should be stored in our 1Password vault.
 
 ## Error Logging
 
