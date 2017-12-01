@@ -4,8 +4,8 @@ This will set-up a local instance of the Spirited Media multisite. Assumes you'r
 ## Install Software
 
 ### For Running the Virtual Machine
-1. Install [VirtualBox 5.0.x](https://www.virtualbox.org/wiki/Downloads)
-1. Install [Vagrant 1.8.x](https://www.vagrantup.com/downloads.html)
+1. Install [VirtualBox 5.1.x](https://www.virtualbox.org/wiki/Downloads)
+1. Install [Vagrant 2.0.x](https://www.vagrantup.com/downloads.html)
     * `vagrant` will now be available as a command in your terminal, try it out.
     * ***Note:*** If Vagrant is already installed, use `vagrant -v` to check the version. You may want to consider upgrading if a much older version is in use.
 
@@ -18,9 +18,9 @@ Pre-processing happens on the host machine (aka your computer)
 1. Install [Homebrew](http://brew.sh/): `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 `
 1. Install [Node.js & NPM](https://changelog.com/install-node-js-with-homebrew-on-os-x/): `brew install node`
+1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install/): `brew install yarn` 
 1. Install [Grunt](http://gruntjs.com/): `npm install -g grunt-cli`
 1. Install [Bower](https://coolestguidesontheplanet.com/installingbower-on-osx/): `npm install -g bower`
-1. Install [Bundler](http://bundler.io/): `gem install bundler`
 1. Install [Composer](https://getcomposer.org/): `brew install homebrew/php/composer`
 
 ### For directly connecting to the database
@@ -80,14 +80,8 @@ if ( WP_DEBUG ) {
 
     // Disable the 'trash', posts will be deleted immediately
     define( 'EMPTY_TRASH_DAYS', 0 );
-}
-
-// Script debugging
-if ( isset( $_GET['script-debug'] ) ) {
-    // Causes WordPress scripts to be included separately
-    define( 'CONCATENATE_SCRIPTS', false );
-    // Uses unminified scripts
-    define( 'SCRIPT_DEBUG', true );
+    
+    // define( 'PEDESTAL_DEBUG_EMAIL_CSS', true );
 }
 
 define( 'WP_ENV', 'development' );
@@ -100,6 +94,8 @@ define( 'ACTIVECAMPAIGN_API_KEY', '***' );
 define( 'AWS_SES_WP_MAIL_REGION', '***' );
 define( 'AWS_SES_WP_MAIL_KEY', '***' );
 define( 'AWS_SES_WP_MAIL_SECRET', '***' );
+
+define( 'YOUTUBE_DATA_API_KEY', '***' );
 ```
 
 For values that are `***` ask a dev for the real credentails.
