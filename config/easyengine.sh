@@ -107,8 +107,10 @@ EOF
     	echo "$filename symlinked";
     done
 
-    # Move local-photon nginx conf into place
+    # Move local-photon configs into place
     sudo mv local-photon.nginx.conf /var/www/spiritedmedia.dev/conf/nginx/local-photon.nginx.conf
+    sudo cp photon-config.php /var/www/spiritedmedia.dev/photon/config.php
+    sudo chown -R www-data: /var/www/spiritedmedia.dev/photon/
 
     cd ../
     sudo rm -rf nginx-configs/
