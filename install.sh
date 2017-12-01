@@ -78,9 +78,7 @@ cd ../
 rm -rf tmp/
 
 # Add a wp-config-local.php file to the root so we can toggle debugging constants and such.
-cd public/
-touch wp-config-local.php
-# TODO: Set some smart wp-config default constants maybe?
+cp config/wp-config-local.php public/
 
 # Run the bin/install.sh script in the root of the Pedestal repo to install dependencies and build the themes
 echo "-----------------------------"
