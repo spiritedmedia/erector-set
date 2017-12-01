@@ -67,12 +67,18 @@ if ! command_exists ee ; then
     cd ../
     sudo rm -rf nginx-configs/
 
-    divider "Setting up additional sites"
+    divider "Adding a credentials directory"
+    # The actual credentials for this file are in our 1Password vault
+    cd /var/www/spiritedmedia.dev/
+    sudo mkdir credentials/
+    touch google-service-account-credentials.json
+
+    # divider "Setting up additional sites"
     # Use WP-CLI to set-up our default sites
-    cd /var/www//spiritedmedia.dev/htdocs/
+    # cd /var/www//spiritedmedia.dev/htdocs/
     # sudo -u www-data wp site create --slug="billypenn" --title="Billy Penn" --email="systems@spiritedmedia.com"
     # sudo -u www-data wp site create --slug="theincline" --title="The Incline" --email="systems@spiritedmedia.com"
-    sudo su
+    # sudo su
 
     divider "Modifying wp-config.php"
     cd /var/www/spiritedmedia.dev/
