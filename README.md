@@ -37,6 +37,10 @@ Pre-processing happens on the host machine (aka your computer)
 	- Password: `admin`
 1. Use photon.spiritedmedia.dev for [dynamic image resizing](http://photon.spiritedmedia.dev/upload.wikimedia.org/wikipedia/commons/0/0e/Erector_Set_Ad_1922.JPG?resize=300,60)
 
+## SSHing into the box
+
+To SSH directly in to the box you can go to the `spiritedmdia.dev` folder and type `vagrant ssh`. If you want an SSH config to your `.ssh/config` file then type `vagrant ssh-config`, copy the contents, paste it into your `.ssh/config` file.
+
 ## Connect to the Database
 In the directory you cloned Erector Set into...
 
