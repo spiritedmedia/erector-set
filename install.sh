@@ -2,6 +2,7 @@
 
 REPO_URL="git@github.com:spiritedmedia/spiritedmedia.git"
 PHOTON_REPO_URL="git@github.com:spiritedmedia/local-photon.git"
+ROOT_DIR=$(pwd)
 
 function command_exists () {
     type "$1" &> /dev/null ;
@@ -89,6 +90,8 @@ cp config/wp-config-local.php public/
 # Run the bin/install.sh script in the root of the Pedestal repo to install dependencies and build the themes
 echo "-----------------------------"
 echo "Building the themes..."
+cd $ROOT_DIR
+cd public/
 source bin/install.sh
 grunt build
 
