@@ -98,7 +98,7 @@ EOF
 
     divider "Moving nginx confs into place"
     # Move nginx conf files into place for each mapped domain
-    cd nginx-configs/
+    cd ~/nginx-configs/
     filenames=(*.dev)
     sudo mv *.dev /etc/nginx/sites-available/
     for filename in "${filenames[@]}"
