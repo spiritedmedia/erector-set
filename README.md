@@ -28,7 +28,7 @@ Pre-processing happens on the host machine (aka your computer)
 1. Download and install [Sequel Pro](http://www.sequelpro.com/)
 
 ## Build the box
-1. Clone the repo `git clone https://github.com/spiritedmedia/erector-set.git`
+1. Clone the repo `git clone https://github.com/spiritedmedia/erector-set.git spiritedmedia.dev`
 1. Run `./install.sh`
 1. Wait 5-10 minutes
 1. Visit [spiritedmedia.dev](http://spiritedmedia.dev)
