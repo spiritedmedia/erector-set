@@ -58,8 +58,8 @@ In the directory you cloned Erector Set into...
 | Database     | spiritedmedia_dev |
 | Port         | 3306 (default)    |
 | SSH Host     | spiritedmedia.dev |
-| SSH User     | vagrant           |
-| SSH Password | vagrant           |
+| SSH User     | ubuntu            |
+| SSH Password | ubuntu            |
 | SSH Port     | <leave blank>     |
 
 <img width="912" alt="screen shot 2016-05-20 at 12 19 02 pm" src="https://cloud.githubusercontent.com/assets/867430/15434500/217ce97e-1e85-11e6-8acf-6efa3c757b29.png">
