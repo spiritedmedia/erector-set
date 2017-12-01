@@ -35,6 +35,7 @@ Pre-processing happens on the host machine (aka your computer)
 1. Login via [spiritedmedia.dev/wp-admin](http://spiritedmedia.dev/wp-admin/)
 	- Username: `admin`
 	- Password: `admin`
+1. Use photon.spiritedmedia.dev for [dynamic image resizing](http://photon.spiritedmedia.dev/upload.wikimedia.org/wikipedia/commons/0/0e/Erector_Set_Ad_1922.JPG?resize=300,60)
 
 ## Connect to the Database
 In the directory you cloned Erector Set into...

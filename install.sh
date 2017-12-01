@@ -1,6 +1,7 @@
 #!/bin/bash
 
 REPO_URL="git@github.com:spiritedmedia/spiritedmedia.git"
+PHOTON_REPO_URL="git@github.com:spiritedmedia/local-photon.git"
 
 function command_exists () {
     type "$1" &> /dev/null ;
@@ -75,6 +76,11 @@ mv tmp/.git public/
 cd public/
 git reset --hard origin/master
 cd ../
+rm -rf tmp/
+
+# Move image-proxy.php into place
+git clone --recursive $PHOTON_REPO_URL tmp/
+mv tmp/image-proxy.php public/
 rm -rf tmp/
 
 # Add a wp-config-local.php file to the root so we can toggle debugging constants and such.
