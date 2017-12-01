@@ -119,7 +119,7 @@ EOF
     # The actual credentials for this file are in our 1Password vault
     cd /var/www/spiritedmedia.dev/
     sudo mkdir credentials/
-    touch google-service-account-credentials.json
+    touch credentials/google-service-account-credentials.json
 
     # divider "Setting up additional sites"
     # Use WP-CLI to set-up our default sites
