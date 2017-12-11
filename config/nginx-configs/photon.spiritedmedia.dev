@@ -1,0 +1,14 @@
+server {
+    server_name photon.spiritedmedia.dev   www.photon.spiritedmedia.dev;
+
+    access_log /var/log/nginx/photon.spiritedmedia.dev.access.log rt_cache;
+    error_log /var/log/nginx/photon.spiritedmedia.dev.error.log;
+
+    root /var/www/photon.spiritedmedia.dev/htdocs;
+
+    index index.php index.html index.htm;
+
+    include common/php7.conf;
+    # include common/locations-php7.conf;
+    include /var/www/photon.spiritedmedia.dev/conf/nginx/*.conf;
+}

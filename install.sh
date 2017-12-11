@@ -1,6 +1,8 @@
 #!/bin/bash
 
 REPO_URL="git@github.com:spiritedmedia/spiritedmedia.git"
+PHOTON_REPO_URL="git@github.com:spiritedmedia/local-photon.git"
+ROOT_DIR=$(pwd)
 
 function command_exists () {
     type "$1" &> /dev/null ;
@@ -77,14 +79,19 @@ git reset --hard origin/master
 cd ../
 rm -rf tmp/
 
+# Move image-proxy.php into place
+git clone --recursive $PHOTON_REPO_URL tmp/
+mv tmp/image-proxy.php public/
+rm -rf tmp/
+
 # Add a wp-config-local.php file to the root so we can toggle debugging constants and such.
-cd public/
-touch wp-config-local.php
-# TODO: Set some smart wp-config default constants maybe?
+cp config/wp-config-local.php public/
 
 # Run the bin/install.sh script in the root of the Pedestal repo to install dependencies and build the themes
 echo "-----------------------------"
 echo "Building the themes..."
+cd $ROOT_DIR
+cd public/
 source bin/install.sh
 grunt build
 
