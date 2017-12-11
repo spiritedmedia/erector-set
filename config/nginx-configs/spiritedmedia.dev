@@ -1,6 +1,5 @@
 server {
-    # Uncomment the following line for domain mapping
-    # listen 80 default_server;
+    listen 80;
 
     server_name spiritedmedia.dev *.spiritedmedia.dev billypenn.dev *.billypenn.dev theincline.dev *.theincline.dev denverite.dev *.denverite.dev;
 
