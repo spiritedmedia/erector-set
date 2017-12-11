@@ -18,6 +18,15 @@ This will tell your computer to trust our self signed certs.
 7. Close the window
 8. Close the Keychain app
 
+Firefox doesn't use the Keychain app and manages its own certificates on its own.
+
+1. Open Firefox preferences 
+2. Select *Privacy & Security* in the left menu
+3. Click the *View Certificates...* button
+4. Click the *Authorities* tab
+5. Import
+6. Select `01-certificate-authority/spiritedmediaCA.pem`
+
 ### Move files in to place 
 
 1. SSH into your Vagrant box
