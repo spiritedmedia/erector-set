@@ -1,0 +1,22 @@
+authorityKeyIdentifier=keyid,issuer
+basicConstraints=CA:FALSE
+keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = spiritedmedia.dev
+DNS.2 = billypenn.dev
+DNS.3 = theincline.dev
+DNS.4 = denverite.dev
+
+# IP of our Vagrant box
+DNS.5 = 192.168.33.10
+
+# Add these if you need them. But usually you don't want them or
+#   need them in production. You may need them for development.
+# DNS.6       = localhost
+# DNS.7       = localhost.localdomain
+# DNS.8       = 127.0.0.1
+
+# IPv6 localhost
+# DNS.9     = ::1

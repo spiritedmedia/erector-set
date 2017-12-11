@@ -20,7 +20,6 @@ Pre-processing happens on the host machine (aka your computer)
 1. Install [Node.js & NPM](https://changelog.com/install-node-js-with-homebrew-on-os-x/): `brew install node`
 1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install/): `brew install yarn`
 1. Install [Grunt](http://gruntjs.com/): `npm install -g grunt-cli`
-1. Install [Bower](https://coolestguidesontheplanet.com/installingbower-on-osx/): `npm install -g bower`
 1. Install [Composer](https://getcomposer.org/): `brew install homebrew/php/composer`
 
 ### For directly connecting to the database
