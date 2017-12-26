@@ -67,6 +67,39 @@ In the directory you cloned Erector Set into...
 
 <img width="912" alt="screen shot 2016-05-20 at 12 19 02 pm" src="https://cloud.githubusercontent.com/assets/867430/15434500/217ce97e-1e85-11e6-8acf-6efa3c757b29.png">
 
+## Installing SSL Certs
+
+### Installing a Custom Root Certificate
+This will tell your computer to trust our self signed certs.
+
+1. Open the macOS Keychain app
+2. Go to File > Import Items…
+3. Select the `ssl/01-certificate-authority/spiritedmediaCA.pem`
+4. Search for `Spirited Media` and double click on the certificate to edit the info
+5. Twirl down the Trust section
+6. Set `When using this certificate` to `Always Trust`
+7. Close the window
+8. Close the Keychain app
+
+Firefox doesn't use the Keychain app and manages its own certificates on its own.
+
+1. Open Firefox preferences 
+2. Select *Privacy & Security* in the left menu
+3. Click the *View Certificates...* button
+4. Click the *Authorities* tab
+5. Import
+6. Select `ssl/01-certificate-authority/spiritedmediaCA.pem`
+
+### Move files in to place 
+
+1. SSH into your Vagrant box
+2. Go to our conf directory: `cd /var/www/spiritedmedia.dev/conf/`
+3. Create an ssl directory: `sudo mkdir ssl`
+4. Copy `ssl/spiritedmedia.dev.crt` to `/var/www/spiritedmedia.dev/conf/ssl/spiritedmedia.dev.crt`
+5. Copy `ssl/02-ca-signed-certificate/spiritedmedia.dev.key` to `/var/www/spiritedmedia.dev/conf/ssl/spiritedmedia.dev.key`   
+6. Copy `ssl.conf` to `/var/www/spiritedmedia.dev/conf/nginx/ssl.conf`
+7. Restart nginx: `sudo ee stack restart --nginx`
+
 ## wp-config-local.php
 If you want to customize values in `wp-config.php` add a file called `wp-config-local.php` in the root of the `public/` directory. This file will get included by `wp-config.php` automagically.
 
