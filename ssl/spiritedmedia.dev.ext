@@ -14,7 +14,7 @@ DNS.5 = 192.168.33.10
 
 # Add these if you need them. But usually you don't want them or
 #   need them in production. You may need them for development.
-# DNS.6       = localhost
+DNS.6         = localhost # Needed to make BrowserSync work
 # DNS.7       = localhost.localdomain
 # DNS.8       = 127.0.0.1
 
