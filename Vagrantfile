@@ -128,7 +128,6 @@ Vagrant.configure("2") do |config|
     config.vm.provision "file", source: "config/nginx-configs", destination: "~/nginx-configs"
     config.vm.provision "file", source: "config/php-configs", destination: "~/php-configs"
     config.vm.provision "shell", path: "config/easyengine.sh"
-    config.vm.provision "shell", path: "config/update-configs.sh"
     # config.vm.provision "shell", path: "config/build-tools.sh"
     # config.vm.synced_folder "logs/", "/var/log/", owner: "root", group: "root"
 
