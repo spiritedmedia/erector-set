@@ -154,6 +154,73 @@ In the directory you cloned Erector Set into...
 1. Run: `./error-logging.sh` which shows WordPress and PHP error logs
 
 
+## How to Enable Full Page Caching for Local Environments
+
+ - SSH into the box: `vagrant ssh`
+ - Make a new conf file: `sudo vim /etc/nginx/common/redis-php7-modified.conf`
+ - Add the following contents and save the file:
+ ```
+ # Redis NGINX CONFIGURATION
+# DO NOT MODIFY, ALL CHANGES LOST AFTER UPDATE EasyEngine (ee)
+set $skip_cache 0;
+# POST requests and URL with a query string should always go to php
+if ($request_method = POST) {
+  set $skip_cache 1;
+}
+#if ($query_string != "") {
+#  set $skip_cache 1;
+#}
+# Don't cache URL containing the following segments
+if ($request_uri ~* "(/wp-admin/|wp-.*.php|index.php|sitemap(_index)?.xml|[a-z0-9_-]+-sitemap([0-9]+)?.xml)") {
+  set $skip_cache 1;
+}
+# Don't use the cache for logged in users or recent commenter or customer with items in cart
+if ($http_cookie ~* "comment_author|wordpress_[a-f0-9]+|wp-postpass|wordpress_no_cache|wordpress_logged_in|woocommerce_items_in_cart") {
+  set $skip_cache 1;
+}
+# Use cached or actual file if they exists, Otherwise pass request to WordPress
+location / {
+  try_files $uri $uri/ /index.php?$args;
+}
+
+location /redis-fetch {
+    internal  ;
+    set  $redis_key $args;
+    redis_pass  redis;
+}
+location /redis-store {
+    internal  ;
+    set_unescape_uri $key $arg_key ;
+    redis2_query  set $key $echo_request_body;
+    redis2_query expire $key 14400;
+    redis2_pass  redis;
+}
+
+location ~ \.php$ {
+  set $key "nginx-cache:$scheme$request_method$host$request_uri";
+  try_files $uri =404;
+
+  srcache_fetch_skip $skip_cache;
+  srcache_store_skip $skip_cache;
+
+  srcache_response_cache_control off;
+
+  set_escape_uri $escaped_key $key;
+
+  srcache_fetch GET /redis-fetch $key;
+  srcache_store PUT /redis-store key=$escaped_key;
+
+  more_set_headers 'X-SRCache-Fetch-Status $srcache_fetch_status';
+  more_set_headers 'X-SRCache-Store-Status $srcache_store_status';
+
+  include fastcgi_params;
+  fastcgi_pass php7;
+}
+ ```
+ - Edit the nginx conf for spiritedmedia.dev: `sudo ee site edit spiritedmedia.dev`
+ - Replace the line `include common/php7.conf;` with `include common/redis-php7-modified.conf;` and save
+ - That should automatically restart nginx but if not run `sudo ee stack restart --nginx`
+
 ## Domains
 
 The multiste is set-up to use subdomains for each site. We map domain names to a site via the [Mercator plugin](https://github.com/humanmade/Mercator)
