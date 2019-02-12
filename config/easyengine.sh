@@ -128,17 +128,6 @@ EOF
     sudo svn co http://code.svn.wordpress.org/photon/ /var/www/photon.spiritedmedia.dev/htdocs/
     sudo chown -R www-data: /var/www/photon.spiritedmedia.dev/htdocs/
 
-    divider "Moving nginx confs into place"
-    # Move nginx conf files into place for each mapped domain
-    cd /home/ubuntu/nginx-configs/
-    filenames=(*.dev)
-    sudo mv *.dev /etc/nginx/sites-available/
-    for filename in "${filenames[@]}"
-    do
-        sudo ln -s /etc/nginx/sites-available/$filename /etc/nginx/sites-enabled/$filename
-    	echo "$filename symlinked";
-    done
-
     # Move local-photon configs into place
     sudo mv local-photon.nginx.conf /var/www/spiritedmedia.dev/conf/nginx/local-photon.nginx.conf
     sudo cp photon-config.php /var/www/spiritedmedia.dev/photon/config.php
