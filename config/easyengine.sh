@@ -136,7 +136,7 @@ EOF
     # Add the vagrant user to the www-data group so that it has better access
     # to PHP and Nginx related files.
     # https://github.com/Varying-Vagrant-Vagrants/VVV/commit/9162a564d4823973aea490610ec4d4d51e00d5e4
-    divider "Adding the `ubuntu` user to the www-data group"
+    divider "Adding the \`ubuntu\` user to the www-data group"
     usermod -a -G www-data ubuntu
 
     divider "Adding a credentials directory"
