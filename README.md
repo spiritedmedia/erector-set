@@ -3,45 +3,64 @@ This will set-up a local instance of the Spirited Media multisite. Assumes you'r
 
 ## Install Software
 
-### For Running the Virtual Machine
-1. Install [VirtualBox 5.1.x](https://www.virtualbox.org/wiki/Downloads)
-1. Install [Vagrant 2.0.x](https://www.vagrantup.com/downloads.html)
-    * `vagrant` will now be available as a command in your terminal, try it out.
-    * ***Note:*** If Vagrant is already installed, use `vagrant -v` to check the version. You may want to consider upgrading if a much older version is in use.
+You'll need some basic tools on your machine to get started. Run the following commands in your terminal app (either Terminal.app or [iTerm2](https://www.iterm2.com/)):
 
 _Note: You'll need the [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) plugin but Vagrant will install it for you automatically :)_
 
-### For building the theme
+```sh
+# Install Homebrew if it's not installed already
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-Pre-processing happens on the host machine (aka your computer)
+# Clone the repo and move into it
+git clone https://github.com/spiritedmedia/erector-set.git spiritedmedia.dev && cd spiritedmedia.dev
 
-1. Install [Homebrew](http://brew.sh/): `/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-`
-1. Install [Node.js & NPM](https://changelog.com/install-node-js-with-homebrew-on-os-x/): `brew install node`
-1. Install [Yarn](https://yarnpkg.com/lang/en/docs/install/): `brew install yarn`
-1. Install [Grunt](http://gruntjs.com/): `npm install -g grunt-cli`
-1. Install [Composer](https://getcomposer.org/): `brew install homebrew/php/composer`
+# Install basic host dependencies on your computer
+#
+# This will take a while.
+#
+# Or instead of running this command you can open `Brewfile` and install each of
+# the listed dependencies manually e.g. `brew install coreutils`
+#
+# If Vagrant and VirtualBox aren't installed already, they'll be installed now
+brew bundle
 
-### For directly connecting to the database
+# Make sure your Vagrant version is at least 2.1.x
+vagrant -v
+# If it's lower than 2.1.x, then update it
+brew cask reinstall vagrant
 
-1. Download and install [Sequel Pro](http://www.sequelpro.com/)
+# Optionally install Sequel Pro for connecting to the database with a GUI
+brew cask install sequel-pro
 
-## Build the box
-1. Clone the repo `git clone https://github.com/spiritedmedia/erector-set.git spiritedmedia.dev`
-1. Run `./install.sh`
-1. Wait 5-10 minutes
+# Install Grunt globally -- every other Node dependency will be installed
+# within the project
+npm install -g grunt-cli
+
+# Kick off the rest of the process... be patient!
+./install.sh
+```
+
+## Preparing WordPress
+
+After the installation script is done, you should be all set to log in:
+
 1. Visit [spiritedmedia.dev](http://spiritedmedia.dev)
-1. Login via [spiritedmedia.dev/wp-admin](http://spiritedmedia.dev/wp-admin/)
+2. Login via [spiritedmedia.dev/wp-admin](http://spiritedmedia.dev/wp-admin/)
 	- Username: `admin`
 	- Password: `admin`
 1. Use photon.spiritedmedia.dev for [dynamic image resizing](http://photon.spiritedmedia.dev/upload.wikimedia.org/wikipedia/commons/0/0e/Erector_Set_Ad_1922.JPG?resize=300,60)
 
+
 ## SSHing into the box
 
-To SSH directly in to the box you can go to the `spiritedmdia.dev` folder and type `vagrant ssh`. If you want an SSH config to your `.ssh/config` file then type `vagrant ssh-config`, copy the contents, paste it into your `.ssh/config` file.
+To SSH directly in to the box you can go to the `spiritedmdia.dev` folder and type `vagrant ssh`.
+
+If you want an SSH config to your `.ssh/config` file then type `vagrant ssh-config`, copy the contents, paste it into your `.ssh/config` file.
+
 
 ## Connect to the Database
-In the directory you cloned Erector Set into...
+
+In your working directory:
 
 1. Navigate to the `utilities` directory: `cd utilities/`
 1. Get the database credentials: `./get-db-info.sh`
@@ -66,6 +85,7 @@ In the directory you cloned Erector Set into...
 | SSH Port     | <leave blank>     |
 
 <img width="912" alt="screen shot 2016-05-20 at 12 19 02 pm" src="https://cloud.githubusercontent.com/assets/867430/15434500/217ce97e-1e85-11e6-8acf-6efa3c757b29.png">
+
 
 ## Installing SSL Certs
 
