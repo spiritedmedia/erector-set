@@ -22,10 +22,6 @@ if ! command_exists grunt ; then
     echo "Grunt isn't installed. You need that to build the theme."
 fi
 
-# Make our utility helper scripts executeable
-chmod +x utilities/error-logging.sh
-chmod +x utilities/get-db-info.sh
-
 # Check if the /public directory is empty or not
 if [ "$(ls -A public/)" ]; then
     echo "The /public directory is not empty."
