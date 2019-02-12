@@ -42,6 +42,8 @@ if [ "$(ls -A public/)" ]; then
                 ;;
         esac
     done
+else
+    echo "The /public directory doesn't exist. Continuing with installation..."
 fi
 
 ## Make sure the /public directory exists
