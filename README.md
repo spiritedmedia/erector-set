@@ -35,10 +35,9 @@ brew cask install sequel-pro
 # Install Grunt globally -- every other Node dependency will be installed
 # within the project
 npm install -g grunt-cli
-
-# Kick off the rest of the process... be patient!
-./install.sh
 ```
+
+After all that's done, run `./install.sh` to kick off the rest of the process. You will be prompted to enter your system's administrator password. Otherwise, please be patient while things install.
 
 ## Preparing WordPress
 
