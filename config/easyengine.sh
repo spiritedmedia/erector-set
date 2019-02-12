@@ -150,9 +150,6 @@ EOF
     divider "Adding the `ubuntu` user to the www-data group"
     usermod -a -G www-data ubuntu
 
-    cd ../
-    sudo rm -rf nginx-configs/
-
     divider "Adding a credentials directory"
     # The actual credentials for this file are in our 1Password vault
     cd /var/www/spiritedmedia.dev/
