@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 REPO_URL="git@github.com:spiritedmedia/spiritedmedia.git"
 PHOTON_REPO_URL="git@github.com:spiritedmedia/local-photon.git"
 ROOT_DIR=$(pwd)
