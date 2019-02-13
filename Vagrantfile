@@ -101,8 +101,8 @@ Vagrant.configure('2') do |config|
   # config.vm.synced_folder 'logs/', '/var/www/spiritedmedia.dev/logs', :owner => 'www-data', :group => 'www-data', :mount_options => [ 'dmode=775','fmode=774' ]
   # rubocop:enable LineLength
 
-  # Run provisioning scripts
-  config.vm.provision 'shell', path: 'provision/easyengine.sh'
+  # Run provisioning script
+  config.vm.provision 'shell', path: 'provision/provision.sh'
 
   config.vm.provision 'fix-no-tty', type: 'shell' do |s|
     s.privileged = false
