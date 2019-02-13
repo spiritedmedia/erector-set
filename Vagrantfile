@@ -34,10 +34,11 @@ Vagrant.configure('2') do |config|
 
   # Default Ubuntu Box
   #
-  # This box is provided by Ubuntu vagrantcloud.com box containing the Ubuntu
-  # 16.04 Xenial 64 bit release. Once this box is downloaded to your host
-  # computer, it is cached for future use under the specified box name.
-  config.vm.box = 'ubuntu/xenial64'
+  # Box containing the Ubuntu 18.04.1 Bionic Beaver 64 bit LTS release.
+  #
+  # Once this box is downloaded to your host computer, it is cached for future
+  # use under the specified box name.
+  config.vm.box = 'ubuntu/bionic64'
 
   # Private Network (default)
   #
