@@ -24,16 +24,16 @@ if command_exists ee ; then
         echo "$filename symlinked";
     done
 
-    divider "Moving PHP extension config files into place"
-    xdebug_ini_path=$(php --ini | grep xdebug | head -1)
-    mods_available_path=$(dirname $(readlink -f "${xdebug_ini_path//,}"))
-    cd /home/ubuntu/php-configs/
-    sudo mv *.ini "$mods_available_path"/
-
     divider "Moving local-photon configs into place"
     sudo mv local-photon.nginx.conf /var/www/spiritedmedia.dev/conf/nginx/local-photon.nginx.conf
     sudo cp photon-config.php /var/www/spiritedmedia.dev/photon/config.php
     sudo chown -R www-data: /var/www/spiritedmedia.dev/photon/
+
+    divider "Moving PHP extension config files into place"
+    cd /home/ubuntu/php-configs/
+    xdebug_ini_path=$(php --ini | grep xdebug | head -1)
+    mods_available_path=$(dirname $(readlink -f "${xdebug_ini_path//,}"))
+    sudo mv *.ini "$mods_available_path"/
 
     divider "Cleaning up"
     cd ../
