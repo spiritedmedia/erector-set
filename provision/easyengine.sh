@@ -11,8 +11,7 @@ function divider() {
     fi
 }
 
-if command_exists ee ; then
-
+function update_configs() {
     divider "Moving nginx confs into place"
     # Move nginx conf files into place for each mapped domain
     cd /home/ubuntu/nginx-configs/ || exit
@@ -37,12 +36,13 @@ if command_exists ee ; then
 
     divider "Cleaning up"
     cd ../ || exit
-    sudo rm -rf nginx-configs/
-    sudo rm -rf php-configs/
 
     divider "All done. Restarting the stack."
     sudo ee stack restart
+}
 
+if command_exists ee ; then
+    update_configs
 else
 
     divider "Installing Unattended Upgrades"
@@ -120,7 +120,7 @@ EOF
     sudo ln -sf /usr/bin/cwebp /usr/local/bin/cwebp
 
     divider "Checking out Local Photon for dynamic image resizing"
-    cd /var/www/spiritedmedia.dev/
+    cd /var/www/spiritedmedia.dev/ || exit
     sudo svn co http://code.svn.wordpress.org/photon/
     sudo chown -R www-data: photon/
 
@@ -129,10 +129,8 @@ EOF
     sudo svn co http://code.svn.wordpress.org/photon/ /var/www/photon.spiritedmedia.dev/htdocs/
     sudo chown -R www-data: /var/www/photon.spiritedmedia.dev/htdocs/
 
-    # Move local-photon configs into place
-    sudo mv local-photon.nginx.conf /var/www/spiritedmedia.dev/conf/nginx/local-photon.nginx.conf
-    sudo cp photon-config.php /var/www/spiritedmedia.dev/photon/config.php
-    sudo chown -R www-data: /var/www/spiritedmedia.dev/photon/
+    # Now that EasyEngine is set up we can update the configuration files
+    update_configs
 
     # Add the vagrant user to the www-data group so that it has better access
     # to PHP and Nginx related files.
