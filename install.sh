@@ -28,7 +28,7 @@ fi
 if [ "$(ls -A public/)" ]; then
     echo "The /public directory is not empty."
     while true; do
-        read -p "Delete everything in /public and start over? (y/n): " yn
+        read -pr "Delete everything in /public and start over? (y/n): " yn
         case $yn in
             [Yy]* )
                 rm -rf public/
@@ -90,12 +90,13 @@ cp config/wp-config-local.php public/
 # Run the bin/install.sh script in the root of the Pedestal repo to install dependencies and build the themes
 echo "-----------------------------"
 echo "Building the themes..."
-cd $ROOT_DIR
+cd "$ROOT_DIR"
 cd public/
+# shellcheck disable=SC1091
 source bin/install.sh
 grunt build
 
 # And it's done
 end_seconds="$(date +%s)"
 echo "-----------------------------"
-echo "Installation complete in "$((${end_seconds} - ${start_seconds}))" seconds"
+echo "Installation complete in "$((end_seconds - start_seconds))" seconds"

@@ -1,4 +1,4 @@
 #! /bin/bash
 
-cd ../
+cd ../ || exit
 vagrant ssh -- -t 'sudo ee log show spiritedmedia.dev --wp --php;'

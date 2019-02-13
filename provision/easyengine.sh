@@ -15,12 +15,12 @@ if command_exists ee ; then
 
     divider "Moving nginx confs into place"
     # Move nginx conf files into place for each mapped domain
-    cd /home/ubuntu/nginx-configs/
+    cd /home/ubuntu/nginx-configs/ || exit
     filenames=(*.dev)
-    sudo mv *.dev /etc/nginx/sites-available/
+    sudo mv ./*.dev /etc/nginx/sites-available/
     for filename in "${filenames[@]}"
     do
-        sudo ln -s /etc/nginx/sites-available/$filename /etc/nginx/sites-enabled/$filename
+        sudo ln -s "/etc/nginx/sites-available/$filename" "/etc/nginx/sites-enabled/$filename"
         echo "$filename symlinked";
     done
 
@@ -30,13 +30,13 @@ if command_exists ee ; then
     sudo chown -R www-data: /var/www/spiritedmedia.dev/photon/
 
     divider "Moving PHP extension config files into place"
-    cd /home/ubuntu/php-configs/
+    cd /home/ubuntu/php-configs/ || exit
     xdebug_ini_path=$(php --ini | grep xdebug | head -1)
-    mods_available_path=$(dirname $(readlink -f "${xdebug_ini_path//,}"))
-    sudo mv *.ini "$mods_available_path"/
+    mods_available_path=$(dirname "$(readlink -f "${xdebug_ini_path//,}")")
+    sudo mv ./*.ini "$mods_available_path"/
 
     divider "Cleaning up"
-    cd ../
+    cd ../ || exit
     sudo rm -rf nginx-configs/
     sudo rm -rf php-configs/
 
@@ -69,7 +69,8 @@ else
     sudo git config --global user.name "Spirited Media"
 
     divider "Installing EasyEngine"
-    sudo wget -qO ee rt.cx/ee && sudo bash ee || exit 1
+    sudo wget -qO ee rt.cx/ee && sudo bash ee || exit
+    # shellcheck disable=SC1091
     source /etc/bash_completion.d/ee_auto.rc
 
     divider "Installing Redis"
@@ -141,7 +142,7 @@ EOF
 
     divider "Adding a credentials directory"
     # The actual credentials for this file are in our 1Password vault
-    cd /var/www/spiritedmedia.dev/
+    cd /var/www/spiritedmedia.dev/ || exit
     sudo mkdir credentials/
     touch credentials/google-service-account-credentials.json
 
@@ -153,7 +154,7 @@ EOF
     # sudo su
 
     divider "Modifying wp-config.php"
-    cd /var/www/spiritedmedia.dev/
+    cd /var/www/spiritedmedia.dev/ || exit
     # define SUNRISE and set to true. via https://tomjn.com/2014/03/01/wordpress-bash-magic/
     sudo sed -i "/define( 'BLOG_ID_CURRENT_SITE', 1 );/a define( 'SUNRISE', true );" wp-config.php
     # define the redis server array for WP Redis plugin
