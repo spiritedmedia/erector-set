@@ -56,7 +56,7 @@ if command_exists ee ; then
 else
 
     divider "Installing Unattended Upgrades"
-    sudo apt install unattended-upgrades
+    sudo apt-get install unattended-upgrades
 
     if ! command_exists git ; then
         divider "Installing Git"
