@@ -64,10 +64,10 @@ divider 'Adding SSL certificates to host macOS Keychain'
 if command_exists security ; then
     # Delete any existing certificates
     # via https://unix.stackexchange.com/a/227014
-    security find-certificate -c 'Spirited Media' -a -Z | sudo awk '/SHA-1/{system("security delete-certificate -Z "$NF)}'
+    sudo security find-certificate -c 'Spirited Media' -a -Z | sudo awk '/SHA-1/{system("security delete-certificate -Z "$NF)}'
 
     # Trust the Root Certificate cert
-    security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain 'ssl/01-certificate-authority/spiritedmediaCA.pem'
+    sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain 'ssl/01-certificate-authority/spiritedmediaCA.pem'
 fi
 
 # Destroy the box if it is running
