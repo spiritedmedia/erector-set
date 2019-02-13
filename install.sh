@@ -28,7 +28,7 @@ fi
 if [ "$(ls -A public/)" ]; then
     echo "The /public directory is not empty."
     while true; do
-        read -pr "Delete everything in /public and start over? (y/n): " yn
+        read -r -p "Delete everything in /public and start over? (y/n): " yn
         case $yn in
             [Yy]* )
                 rm -rf public/
