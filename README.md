@@ -88,10 +88,24 @@ In your working directory:
 
 ## Installing SSL Certs
 
-### Installing a Custom Root Certificate
+We need to tell your computer to trust our self-signed SSL certificates.
+
+This should happen automatically during the installation process, but if something doesn't seem to work, you can do this manually following the instructions below.
+
+Either way, Firefox requires an additional step to accept certs from the macOS Keychain.
+
+1. Type `about:config` in the address bar
+2. Search for `security.enterprise_roots.enabled`
+3. Set it to `true`
+
+[This works in Firefox 63+](https://superuser.com/a/1369035/926865). If you are on an older version… update your browser!
+
+### Manual Installation
+
+#### Installing a Custom Root Certificate
 This will tell your computer to trust our self signed certs.
 
-1. Open the macOS Keychain app
+1. Open the macOS Keychain Access app
 2. Go to File > Import Items…
 3. Select the `ssl/01-certificate-authority/spiritedmediaCA.pem`
 4. Search for `Spirited Media` and double click on the certificate to edit the info
@@ -100,24 +114,25 @@ This will tell your computer to trust our self signed certs.
 7. Close the window
 8. Close the Keychain app
 
-Firefox doesn't use the Keychain app and manages its own certificates on its own.
+Follow the instructions in the previous section to tell Firefox to use the system Keychain. Or if for some reason you can't use Firefox 63+, you'll need to take a different approach:
 
-1. Open Firefox preferences 
+1. Open Firefox preferences
 2. Select *Privacy & Security* in the left menu
 3. Click the *View Certificates...* button
 4. Click the *Authorities* tab
 5. Import
 6. Select `ssl/01-certificate-authority/spiritedmediaCA.pem`
 
-### Move files in to place 
+#### Move files in to place
 
 1. SSH into your Vagrant box
 2. Go to our conf directory: `cd /var/www/spiritedmedia.dev/conf/`
 3. Create an ssl directory: `sudo mkdir ssl`
 4. Copy `ssl/spiritedmedia.dev.crt` to `/var/www/spiritedmedia.dev/conf/ssl/spiritedmedia.dev.crt`
-5. Copy `ssl/02-ca-signed-certificate/spiritedmedia.dev.key` to `/var/www/spiritedmedia.dev/conf/ssl/spiritedmedia.dev.key`   
+5. Copy `ssl/02-ca-signed-certificate/spiritedmedia.dev.key` to `/var/www/spiritedmedia.dev/conf/ssl/spiritedmedia.dev.key`
 6. Copy `ssl.conf` to `/var/www/spiritedmedia.dev/conf/nginx/ssl.conf`
 7. Restart nginx: `sudo ee stack restart --nginx`
+
 
 ## wp-config-local.php
 If you want to customize values in `wp-config.php` add a file called `wp-config-local.php` in the root of the `public/` directory. This file will get included by `wp-config.php` automagically.

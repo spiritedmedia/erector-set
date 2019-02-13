@@ -12,6 +12,8 @@ function divider() {
 }
 
 function update_configs() {
+    conf_dir='/var/www/spiritedmedia.dev/conf'
+
     divider "Moving nginx confs into place"
     # Move nginx conf files into place for each mapped domain
     cd /home/ubuntu/nginx-configs/ || exit
@@ -24,7 +26,7 @@ function update_configs() {
     done
 
     divider "Moving local-photon configs into place"
-    sudo mv local-photon.nginx.conf /var/www/spiritedmedia.dev/conf/nginx/local-photon.nginx.conf
+    sudo mv local-photon.nginx.conf "$conf_dir/nginx/local-photon.nginx.conf"
     sudo cp photon-config.php /var/www/spiritedmedia.dev/photon/config.php
     sudo chown -R www-data: /var/www/spiritedmedia.dev/photon/
 
@@ -33,6 +35,14 @@ function update_configs() {
     xdebug_ini_path=$(php --ini | grep xdebug | head -1)
     mods_available_path=$(dirname "$(readlink -f "${xdebug_ini_path//,}")")
     sudo mv ./*.ini "$mods_available_path"/
+
+    divider "Moving SSL files into place"
+    cd /home/ubuntu/ssl/ || exit
+    ssl_conf_dir="$conf_dir/ssl"
+    sudo mkdir $ssl_conf_dir || exit
+    sudo cp spiritedmedia.dev.crt $ssl_conf_dir/
+    sudo cp 02-ca-signed-certificate/spiritedmedia.dev.key $ssl_conf_dir/
+    sudo cp ssl.conf "$conf_dir/nginx/"
 
     divider "Cleaning up"
     cd ../ || exit
