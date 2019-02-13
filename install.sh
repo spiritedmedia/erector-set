@@ -10,6 +10,13 @@ function command_exists () {
     type "$1" &> /dev/null ;
 }
 
+function divider() {
+    echo -------------------------------------------------------- ;
+    if [ "$1" ]; then
+        echo "$1"
+    fi
+}
+
 # By storing the date now, we can calculate the duration of provisioning at the
 # end of this script.
 start_seconds="$(date +%s)"
@@ -53,6 +60,7 @@ if [ ! -d "public" ]; then
     mkdir public/
 fi
 
+divider 'Adding SSL certificates to host macOS Keychain'
 if command_exists security ; then
     # Delete any existing certificates
     # via https://unix.stackexchange.com/a/227014
