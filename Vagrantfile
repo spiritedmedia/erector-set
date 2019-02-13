@@ -132,6 +132,11 @@ Vagrant.configure("2") do |config|
   # Copy some files and directories to the VM
   config.vm.synced_folder 'config/nginx-configs', '/home/ubuntu/nginx-configs'
   config.vm.synced_folder 'config/php-configs', '/home/ubuntu/php-configs'
+  config.vm.synced_folder 'public/',
+                          '/var/www/spiritedmedia.dev/htdocs',
+                          owner: 'www-data',
+                          group: 'www-data',
+                          mount_options: ['dmode=777', 'fmode=777']
   # config.vm.synced_folder 'logs/', '/var/log/', owner: 'root', group: 'root'
 
   # Run provisioning scripts
@@ -145,19 +150,6 @@ Vagrant.configure("2") do |config|
   # symlinks
   #
   # config.vm.synced_folder 'logs/', '/var/www/spiritedmedia.dev/logs', :owner => 'www-data', :group => 'www-data', :mount_options => [ 'dmode=775','fmode=774' ]
-
-  #
-  # /srv/www/
-  #
-  # If a www directory exists in the same directory as your Vagrantfile, a
-  # mapped directory inside the VM will be created that acts as the default
-  # location for nginx sites. Put all of your project files here that you want
-  # to access through the web server
-  if vagrant_version >= '1.3.0'
-    config.vm.synced_folder 'public/', '/var/www/spiritedmedia.dev/htdocs', :owner => 'www-data', :group => 'www-data', :mount_options => [ 'dmode=777','fmode=777' ]
-  else
-    config.vm.synced_folder 'public/', '/var/www/spiritedmedia.dev/htdocs', :owner => 'www-data', :group => 'www-data', :extra => 'dmode=777,fmode=777'
-  end
 
   config.vm.provision 'fix-no-tty', type: 'shell' do |s|
     s.privileged = false
