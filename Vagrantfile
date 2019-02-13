@@ -85,7 +85,9 @@ Vagrant.configure('2') do |config|
     HEREDOC
   end
 
-  # Copy some files and directories to the VM
+  # Sync some files and directories with the VM
+  #
+  # Note that if these are deleted on the VM, they'll be deleted on the host too!
   config.vm.synced_folder 'config/nginx-configs', '/home/ubuntu/nginx-configs'
   config.vm.synced_folder 'config/php-configs', '/home/ubuntu/php-configs'
   config.vm.synced_folder 'public/',
