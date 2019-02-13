@@ -1,6 +1,3 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
 # Make sure Vagrant plugins are installed
 #
 # via http://matthewcooper.net/2015/01/15/automatically-installing-vagrant-plugin-dependencies/
@@ -14,14 +11,9 @@ required_plugins.each do |plugin|
   end
 end
 
-# Store the vagrant directory as a variable
 vagrant_dir = File.expand_path(__dir__)
 
 Vagrant.configure('2') do |config|
-  # Store the current version of Vagrant for use in conditionals when dealing
-  # with possible backward compatible issues.
-  vagrant_version = Vagrant::VERSION.sub(/^v/, '')
-
   # Configurations from 1.0.x can be placed in Vagrant 1.1.x specs like the
   # following.
   config.vm.provider :virtualbox do |v|
@@ -51,31 +43,29 @@ Vagrant.configure('2') do |config|
   #
   # A private network is created by default. This is the IP address through
   # which your host machine will communicate to the guest. In this default
-  # configuration, the virtual machine will have an IP address of 192.168.50.4
-  # and a virtual network adapter will be created on your host machine with the
-  # IP of 192.168.50.1 as a gateway.
+  # configuration, the virtual machine will have an IP address of 192.168.33.10
+  # and a virtual network adapter will be created on your host machine
   #
   # Access to the guest machine is only available to your local host. To provide
   # access to other devices, a public network should be configured or port
   # forwarding enabled.
   #
-  # Note: If your existing network is using the 192.168.50.x subnet, this
+  # Note: If your existing network is using the 192.168.33.x subnet, this
   # default IP address should be changed. If more than one VM is running through
   # VirtualBox, including other Vagrant machines, different subnets should be
   # used for each.
   #
   config.vm.network :private_network, id: 'vvv_primary', ip: '192.168.33.10'
 
-  config.vm.provider :hyperv do |v, override|
+  config.vm.provider :hyperv do |_v, override|
     override.vm.network :private_network, id: 'vvv_primary', ip: nil
   end
 
   config.vm.hostname = 'spiritedmedia.dev'
 
-  # Recursively fetch the paths to all vvv-hosts files under the www/ directory.
+  # Recursively fetch the paths to all hosts files
   paths = Dir[File.join(vagrant_dir, 'config', '**', 'hosts')]
-
-  # Parse the found hosts files for host names.
+  # Parse the found hosts files for host names
   hosts = paths.map do |path|
     # Read line from file and remove line breaks
     lines = File.readlines(path).map(&:chomp)
@@ -102,63 +92,17 @@ Vagrant.configure('2') do |config|
                           owner: 'www-data',
                           group: 'www-data',
                           mount_options: ['dmode=777', 'fmode=777']
+  # @TODO Get logs working
   # config.vm.synced_folder 'logs/', '/var/log/', owner: 'root', group: 'root'
+  # # rubocop:disable LineLength
+  # config.vm.synced_folder 'logs/', '/var/www/spiritedmedia.dev/logs', :owner => 'www-data', :group => 'www-data', :mount_options => [ 'dmode=775','fmode=774' ]
+  # rubocop:enable LineLength
 
   # Run provisioning scripts
   config.vm.provision 'shell', path: 'provision/easyengine.sh'
-  # config.vm.provision 'shell', path: 'config/build-tools.sh'
-
-  # Logs
-  #
-  # TODO: Make log files accessible to the host for use in apps like Console.
-  # Can't figure this out right now. This probably has something to do with
-  # symlinks
-  #
-  # rubocop:disable LineLength
-  # config.vm.synced_folder 'logs/', '/var/www/spiritedmedia.dev/logs', :owner => 'www-data', :group => 'www-data', :mount_options => [ 'dmode=775','fmode=774' ]
-  # rubocop:enable LineLength
 
   config.vm.provision 'fix-no-tty', type: 'shell' do |s|
     s.privileged = false
     s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile" # rubocop:disable LineLength
   end
-
-  # Always start MySQL on boot, even when not running the full provisioner
-  # (run: "always" support added in 1.6.0)
-  if vagrant_version >= '1.6.0'
-    ## config.vm.provision :shell, inline: "sudo ee stack reload", run: "always"
-  end
-
-  # Vagrant Triggers
-  #
-  # If the vagrant-triggers plugin is installed, we can run various scripts on
-  # Vagrant state changes like `vagrant up`, `vagrant halt`, `vagrant suspend`,
-  # and `vagrant destroy`
-  #
-  # These scripts are run on the host machine, so we use `vagrant ssh` to tunnel
-  # back into the VM and execute things. By default, each of these scripts calls
-  # db_backup to create backups of all current databases. This can be overridden
-  # with custom scripting. See the individual files in config/homebin/ for
-  # details.
-  #
-  # if defined? VagrantPlugins::Triggers
-  #  config.trigger.after :up, :stdout => true do
-  #    run "vagrant ssh -c 'vagrant_up'"
-  #  end
-  #  config.trigger.before :reload, :stdout => true do
-  #    run "vagrant ssh -c 'vagrant_halt'"
-  #  end
-  #  config.trigger.after :reload, :stdout => true do
-  #    run "vagrant ssh -c 'vagrant_up'"
-  #  end
-  #  config.trigger.before :halt, :stdout => true do
-  #    run "vagrant ssh -c 'vagrant_halt'"
-  #  end
-  #  config.trigger.before :suspend, :stdout => true do
-  #    run "vagrant ssh -c 'vagrant_suspend'"
-  #  end
-  #  config.trigger.before :destroy, :stdout => true do
-  #    run "vagrant ssh -c 'vagrant_destroy'"
-  #  end
-  # end
 end
