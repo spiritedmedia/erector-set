@@ -59,7 +59,7 @@ vagrant destroy --force
 # Update the box
 vagrant box update
 
-# Build the box
+# The box will be provisioned with this initial boot
 vagrant up
 
 # Remove a .git/ directory if it is already present

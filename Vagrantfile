@@ -132,9 +132,11 @@ Vagrant.configure("2") do |config|
   # Copy some files and directories to the VM
   config.vm.synced_folder 'config/nginx-configs', '/home/ubuntu/nginx-configs'
   config.vm.synced_folder 'config/php-configs', '/home/ubuntu/php-configs'
-  config.vm.provision 'shell', path: 'config/easyengine.sh'
-  # config.vm.provision 'shell', path: 'config/build-tools.sh'
   # config.vm.synced_folder 'logs/', '/var/log/', owner: 'root', group: 'root'
+
+  # Run provisioning scripts
+  config.vm.provision 'shell', path: 'provision/easyengine.sh'
+  # config.vm.provision 'shell', path: 'config/build-tools.sh'
 
   # Logs
   #
