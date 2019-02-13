@@ -28,28 +28,7 @@ Vagrant.configure("2") do |config|
     v.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
 
     # Set the box name in VirtualBox to match the working directory.
-    vvv_pwd = Dir.pwd
-    v.name = File.basename(vvv_pwd)
-  end
-
-  # Configuration options for the Parallels provider.
-  config.vm.provider :parallels do |v|
-    v.update_guest_tools = true
-    v.customize ['set', :id, '--longer-battery-life', 'off']
-    v.memory = 1024
-    v.cpus = 1
-  end
-
-  # Configuration options for the VMware Fusion provider.
-  config.vm.provider :vmware_fusion do |v|
-    v.vmx['memsize'] = '1024'
-    v.vmx['numvcpus'] = '1'
-  end
-
-  # Configuration options for Hyper-V provider.
-  config.vm.provider :hyperv do |v, override|
-    v.memory = 1024
-    v.cpus = 1
+    v.name = File.basename(Dir.pwd)
   end
 
   # SSH Agent Forwarding
@@ -64,26 +43,6 @@ Vagrant.configure("2") do |config|
   # 16.04 Xenial 64 bit release. Once this box is downloaded to your host
   # computer, it is cached for future use under the specified box name.
   config.vm.box = 'ubuntu/xenial64'
-
-  # The Parallels Provider uses a different naming scheme.
-  config.vm.provider :parallels do |v, override|
-    override.vm.box = 'parallels/ubuntu-16.04'
-  end
-
-  # The VMware Fusion Provider uses a different naming scheme.
-  config.vm.provider :vmware_fusion do |v, override|
-    override.vm.box = 'geerlingguy/ubuntu1604'
-  end
-
-  # VMWare Workstation can use the same package as Fusion
-  config.vm.provider :vmware_workstation do |v, override|
-    override.vm.box = 'geerlingguy/ubuntu1604'
-  end
-
-  # Hyper-V uses a different base box.
-  config.vm.provider :hyperv do |v, override|
-    override.vm.box = 'tvinhas/ubuntu-16.04-hyperv'
-  end
 
   # Private Network (default)
   #
@@ -154,28 +113,6 @@ Vagrant.configure("2") do |config|
   config.vm.provision 'fix-no-tty', type: 'shell' do |s|
     s.privileged = false
     s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
-  end
-
-  # The Parallels Provider does not understand "dmode"/"fmode" in the
-  # "mount_options" as those are specific to Virtualbox. The folder is therefore
-  # overridden with one that uses corresponding Parallels mount options.
-  config.vm.provider :parallels do |v, override|
-    override.vm.synced_folder 'public/', '/var/www/spiritedmedia.dev/htdocs', :owner => 'www-data', :group => 'www-data', :mount_options => []
-  end
-
-  # The Hyper-V Provider does not understand 'dmode'/'fmode' in the
-  # 'mount_options' as those are specific to Virtualbox. Furthermore, the normal
-  # shared folders need to be replaced with SMB shares. Here we switch all the
-  # shared folders to us SMB and then override the www folder with options that
-  # make it Hyper-V compatible.
-  config.vm.provider :hyperv do |v, override|
-    override.vm.synced_folder 'public/', '/var/www/spiritedmedia.dev/htdocs', :owner => 'www-data', :group => 'www-data', :mount_options => ['dir_mode=0777','file_mode=0777','forceuid','noperm','nobrl','mfsymlinks']
-    # Change all the folder to use SMB instead of Virtual Box shares
-    override.vm.synced_folders.each do |id, options|
-      if ! options[:type]
-        options[:type] = 'smb'
-      end
-    end
   end
 
   # Always start MySQL on boot, even when not running the full provisioner
