@@ -7,20 +7,23 @@
 #
 # Vagrant Host Manager updates the host file on the host machine so fancy
 # hostnames work automagically
-required_plugins = %w( vagrant-hostmanager )
+required_plugins = %w[vagrant-hostmanager]
 required_plugins.each do |plugin|
-  exec "vagrant plugin install #{plugin};vagrant #{ARGV.join(' ')}" unless Vagrant.has_plugin? plugin || ARGV[0] == 'plugin'
+  if !((Vagrant.has_plugin? plugin) || ARGV[0] == 'plugin')
+    exec "vagrant plugin install #{plugin};vagrant #{ARGV.join(' ')}"
+  end
 end
 
 # Store the vagrant directory as a variable
-vagrant_dir = File.expand_path(File.dirname(__FILE__))
+vagrant_dir = File.expand_path(__dir__)
 
-Vagrant.configure("2") do |config|
+Vagrant.configure('2') do |config|
   # Store the current version of Vagrant for use in conditionals when dealing
   # with possible backward compatible issues.
   vagrant_version = Vagrant::VERSION.sub(/^v/, '')
 
-  # Configurations from 1.0.x can be placed in Vagrant 1.1.x specs like the following.
+  # Configurations from 1.0.x can be placed in Vagrant 1.1.x specs like the
+  # following.
   config.vm.provider :virtualbox do |v|
     v.customize ['modifyvm', :id, '--memory', 1024]
     v.customize ['modifyvm', :id, '--cpus', 1]
@@ -85,7 +88,10 @@ Vagrant.configure("2") do |config|
     config.hostmanager.manage_host = true
     config.hostmanager.aliases = hosts
   else
-    fail_with_message "vagrant-hostmanager missing, please install the plugin with this command:\nvagrant plugin install vagrant-hostmanager"
+    fail_with_message
+    <<-HEREDOC
+"vagrant-hostmanager missing, please install the plugin with this command:\nvagrant plugin install vagrant-hostmanager"
+    HEREDOC
   end
 
   # Copy some files and directories to the VM
@@ -108,11 +114,13 @@ Vagrant.configure("2") do |config|
   # Can't figure this out right now. This probably has something to do with
   # symlinks
   #
+  # rubocop:disable LineLength
   # config.vm.synced_folder 'logs/', '/var/www/spiritedmedia.dev/logs', :owner => 'www-data', :group => 'www-data', :mount_options => [ 'dmode=775','fmode=774' ]
+  # rubocop:enable LineLength
 
   config.vm.provision 'fix-no-tty', type: 'shell' do |s|
     s.privileged = false
-    s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile"
+    s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile" # rubocop:disable LineLength
   end
 
   # Always start MySQL on boot, even when not running the full provisioner
