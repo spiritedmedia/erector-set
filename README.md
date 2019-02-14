@@ -1,7 +1,28 @@
 # Spirited Media - Erector Set
 This will set-up a local instance of the Spirited Media multisite. Assumes you're using a Mac.
 
-## Install Software
+
+## Details
+
+- IP: `192.168.33.10`
+- Domain: `spiritedmedia.dev`
+- Dev tools: `spiritedmedia.dev:22222`
+- Path inside VM: `/var/www/spiritedmedia.dev`
+
+
+## Domains
+
+The multiste is set-up to use subdomains for each site. We map domain names to a site via the [Mercator plugin](https://github.com/humanmade/Mercator)
+
+| Site ID | Mapped Domain                           | Unmapped Domain                                                     |
+|---------|-----------------------------------------|---------------------------------------------------------------------|
+| 1       | --                                      | [spiritedmedia.dev](http://spiritedmedia.dev)                       |
+| 2       | [billypenn.dev](https://billypenn.dev)   | [billypenn.spiritedmedia.dev](https://billypenn.spiritedmedia.dev)   |
+| 3       | [theincline.dev](https://theincline.dev) | [theincline.spiritedmedia.dev](https://theincline.spiritedmedia.dev) |
+| 4       | [denverite.dev](https://denverite.dev) | [denverite.spiritedmedia.dev](https://denverite.spiritedmedia.dev) |
+
+
+## Installation + Configuration
 
 You'll need some basic tools on your machine to get started. Run the following commands in your terminal app (either Terminal.app or [iTerm2](https://www.iterm2.com/)):
 
@@ -39,31 +60,14 @@ npm install -g grunt-cli
 
 After all that's done, run `./install.sh` to kick off the rest of the process. You will be prompted to enter your system's administrator password. Otherwise, please be patient while things install.
 
-## Preparing WordPress
 
-After the installation script is done, you should be all set to log in:
-
-1. Visit [spiritedmedia.dev](http://spiritedmedia.dev)
-2. Login via [spiritedmedia.dev/wp-admin](http://spiritedmedia.dev/wp-admin/)
-	- Username: `admin`
-	- Password: `admin`
-1. Use photon.spiritedmedia.dev for [dynamic image resizing](http://photon.spiritedmedia.dev/upload.wikimedia.org/wikipedia/commons/0/0e/Erector_Set_Ad_1922.JPG?resize=300,60)
-
-
-## SSHing into the box
-
-To SSH directly in to the box you can go to the `spiritedmdia.dev` folder and type `vagrant ssh`.
-
-If you want an SSH config to your `.ssh/config` file then type `vagrant ssh-config`, copy the contents, paste it into your `.ssh/config` file.
-
-
-## Connect to the Database
+### Connect to the Database
 
 In your working directory:
 
 1. Navigate to the `utilities` directory: `cd utilities/`
-1. Get the database credentials: `./get-db-info.sh`
-1. Note the `DB_USER`, `DB_PASS` values displayed
+2. Get the database credentials: `./get-db-info.sh`
+3. Note the `DB_USER`, `DB_PASS` values displayed
 
 <img width="682" alt="db-info-output" src="https://cloud.githubusercontent.com/assets/867430/15404473/b0626ad4-1dcb-11e6-8cbd-a3038663d7df.png">
 
@@ -86,7 +90,7 @@ In your working directory:
 <img width="912" alt="screen shot 2016-05-20 at 12 19 02 pm" src="https://cloud.githubusercontent.com/assets/867430/15434500/217ce97e-1e85-11e6-8acf-6efa3c757b29.png">
 
 
-## Installing SSL Certs
+### Installing SSL Certs
 
 We need to tell your computer to trust our self-signed SSL certificates.
 
@@ -100,9 +104,10 @@ Either way, Firefox requires an additional step to accept certs from the macOS K
 
 [This works in Firefox 63+](https://superuser.com/a/1369035/926865). If you are on an older version… update your browser!
 
-### Manual Installation
+#### Manual Installation
 
-#### Installing a Custom Root Certificate
+##### Installing a Custom Root Certificate
+
 This will tell your computer to trust our self signed certs.
 
 1. Open the macOS Keychain Access app
@@ -123,7 +128,7 @@ Follow the instructions in the previous section to tell Firefox to use the syste
 5. Import
 6. Select `ssl/01-certificate-authority/spiritedmediaCA.pem`
 
-#### Move files in to place
+##### Move files in to place
 
 1. SSH into your Vagrant box
 2. Go to our conf directory: `cd /var/www/spiritedmedia.dev/conf/`
@@ -134,7 +139,8 @@ Follow the instructions in the previous section to tell Firefox to use the syste
 7. Restart nginx: `sudo ee stack restart --nginx`
 
 
-## wp-config-local.php
+### wp-config-local.php
+
 If you want to customize values in `wp-config.php` add a file called `wp-config-local.php` in the root of the `public/` directory. This file will get included by `wp-config.php` automagically.
 
 Recommended items to add to your `wp-config-local.php` file:
@@ -173,8 +179,18 @@ For values that are `***` ask a dev for the real credentails.
 
 More constants can be found on the [wp-config.php codex page](https://codex.wordpress.org/Editing_wp-config.php) or https://gist.github.com/MikeNGarrett/e20d77ca8ba4ae62adf5
 
-## Credentials
+
+### SSHing into the box
+
+To SSH directly in to the box you can go to the `spiritedmedia.dev` folder and type `vagrant ssh`.
+
+If you want an SSH config to your `.ssh/config` file then type `vagrant ssh-config`, copy the contents, paste it into your `.ssh/config` file.
+
+
+### Credentials
+
 Post installation you will need to SSH in to the box and add our Google Service account credentials to `/var/www/spiritedmedia.dev/credentials/google-service-account-credentials.json`. The contents of this file should be stored in our 1Password vault.
+
 
 ## Error Logging
 
@@ -198,21 +214,6 @@ If for some reason you need to disable full-page caching across the board, follo
  - Uncomment the line with `include common/php7.conf;` and comment out the line with `include common/redis-php7-modified.conf;` and save
  - That should automatically restart nginx but if not run `sudo ee stack restart --nginx`
 
-## Domains
-
-The multiste is set-up to use subdomains for each site. We map domain names to a site via the [Mercator plugin](https://github.com/humanmade/Mercator)
-
-| Site ID | Mapped Domain                           | Unmapped Domain                                                     |
-|---------|-----------------------------------------|---------------------------------------------------------------------|
-| 1       | --                                      | [spiritedmedia.dev](http://spiritedmedia.dev)                       |
-| 2       | [billypenn.dev](http://billypenn.dev)   | [billypenn.spiritedmedia.dev](http://billypenn.spiritedmedia.dev)   |
-| 3       | [theincline.dev](http://theincline.dev) | [theincline.spiritedmedia.dev](http://theincline.spiritedmedia.dev) |
-
-## Details
-- IP: `192.168.33.10`
-- Domain: `spiritedmedia.dev`
-- Dev tools: `spiritedmedia.dev:22222`
-- Path inside VM: `/var/www/spiritedmedia.dev`
 
 ## Credits
 - [EasyEngine.io](https://easyengine.io/)
