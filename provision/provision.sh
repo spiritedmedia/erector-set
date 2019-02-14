@@ -19,8 +19,12 @@ function update_configs() {
         done
     e_success "Done."
 
+    e_header "Moving primary PHP7/Redis config into place"
+        sudo cp redis-php7-modified.conf "$conf_dir/nginx/"
+    e_success "Done."
+
     e_header "Moving local-photon configs into place"
-        sudo cp local-photon.nginx.conf "$conf_dir/nginx/local-photon.nginx.conf"
+        sudo cp local-photon.nginx.conf "$conf_dir/nginx/"
         sudo cp photon-config.php /var/www/spiritedmedia.dev/photon/config.php
         sudo chown -R www-data: /var/www/spiritedmedia.dev/photon/
     e_success "Done."

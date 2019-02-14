@@ -1,7 +1,16 @@
-server {
-    listen 80;
+# Pull out the path values from $request_uri
+map $request_uri $request_uri_path {
+  "~^(?P<path>[^?]*)(\?.*)?$"  $path;
+}
 
-    server_name spiritedmedia.dev *.spiritedmedia.dev billypenn.dev *.billypenn.dev theincline.dev *.theincline.dev denverite.dev *.denverite.dev;
+server {
+    # Uncomment the following line for domain mapping
+    # listen 80 default_server;
+
+    server_name spiritedmedia.dev   *.spiritedmedia.dev
+                billypenn.dev       *.billypenn.dev
+                theincline.dev      *.theincline.dev
+                denverite.dev       *.denverite.dev;
 
     # Uncomment the following line for domain mapping
     #server_name_in_redirect off;
@@ -13,10 +22,18 @@ server {
 
     index index.php index.html index.htm;
 
-    include common/redis-php7.conf;
+    include common/redis-php7-modified.conf;
+    # Uncomment the following include to disable full-page caching, and make sure
+    # to comment out the above line too
     # include common/php7.conf;
 
+
+    # Map any request to a jpg, jpeg, gif, or png file to the image proxy script
+    location ~* \.(jpg|jpeg|gif|png) {
+      try_files $uri/ /image-proxy.php$is_args$args;
+    }
+
     include common/wpcommon-php7.conf;
-    include /var/www/spiritedmedia.dev/conf/nginx/*.conf;
     include common/locations-php7.conf;
+    include /var/www/spiritedmedia.dev/conf/nginx/*.conf;
 }
