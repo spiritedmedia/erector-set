@@ -94,13 +94,10 @@ else
     divider "Setting up spiritedmedia.dev multisite"
     sudo ee site create spiritedmedia.dev --wpsubdomain --php7 --user=admin --pass=admin --email=systems@spiritedmedia.com --experimental
 
-    divider "Fix random memcache warnings when using WP CLI???"
     # See https://github.com/EasyEngine/easyengine/issues/741#issuecomment-229497541
-    # PHP Warning:  PHP Startup: Unable to load dynamic library '/usr/lib/php/20151012/memcached.so' - /usr/lib/php/20151012/memcached.so: undefined symbol: php_msgpack_serialize in Unknown on line 0
-
-    #Disable and enable again module igbinary to resolve redis
+    divider "Fix random memcache warnings when using WP CLI???"
+    # Disable and enable again module igbinary to resolve redis
     sudo phpdismod igbinary && phpenmod igbinary
-
     # For memcached, disable memcached module, and make sure memcache is enabled
     sudo phpdismod memcached && phpenmod memcache
 
@@ -111,13 +108,10 @@ else
 
     divider "Installing phpize and GraphicsMagick"
     sudo apt-get install --yes php7.0-dev graphicsmagick libgraphicsmagick1-dev
-
     # Install the PHP extension (You can check for the latest version at http://pecl.php.net/package/gmagick)
     sudo pecl install gmagick-2.0.4RC1
-
     # Create a gmagick specific configuration file to load the PHP extension
     sudo ln -s /etc/php/7.0/mods-available/gmagick.ini /etc/php/7.0/fpm/conf.d/20-gmagick.ini
-
     # Add our configuration
     sudo cat > /etc/php/7.0/mods-available/gmagick.ini << EOF
 ; configuration for php graphicsmagick module
@@ -158,13 +152,6 @@ EOF
     sudo mkdir credentials/
     touch credentials/google-service-account-credentials.json
 
-    # divider "Setting up additional sites"
-    # Use WP-CLI to set-up our default sites
-    # cd /var/www//spiritedmedia.dev/htdocs/
-    # sudo -u www-data wp site create --slug="billypenn" --title="Billy Penn" --email="systems@spiritedmedia.com"
-    # sudo -u www-data wp site create --slug="theincline" --title="The Incline" --email="systems@spiritedmedia.com"
-    # sudo su
-
     divider "Modifying wp-config.php"
     cd /var/www/spiritedmedia.dev/ || exit
     # define SUNRISE and set to true. via https://tomjn.com/2014/03/01/wordpress-bash-magic/
@@ -184,7 +171,6 @@ EOF
     sudo sed -i "s/define('WP_ALLOW_MULTISITE', true);//g" wp-config.php
 
     # Remove WP_DEBUG from wp-config.php file
-    # Looking for define('WP_DEBUG', false);
     sudo sed -i "s/define('WP_DEBUG', false);//g" wp-config.php
 
     divider "All done. Restarting the stack."
