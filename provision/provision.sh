@@ -72,6 +72,8 @@ else
     fi
 
     if ! command_exists svn ; then
+        sudo add-apt-repository universe
+        sudo apt-get update
         sudo apt-get install --yes subversion
     fi
 
