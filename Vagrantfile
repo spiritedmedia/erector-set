@@ -102,6 +102,11 @@ Vagrant.configure('2') do |config|
   # config.vm.synced_folder 'logs/', '/var/www/spiritedmedia.dev/logs', :owner => 'www-data', :group => 'www-data', :mount_options => [ 'dmode=775','fmode=774' ]
   # rubocop:enable LineLength
 
+  # Set up shell utility functions
+  config.vm.provision 'file',
+                      source: 'utilities/shell-utils.sh',
+                      destination: 'shell-utils.sh'
+
   # Run provisioning script
   config.vm.provision 'shell', path: 'provision/provision.sh'
 
