@@ -102,3 +102,7 @@ e_success "Done."
 # And it's done
 end_seconds="$(date +%s)"
 e_success "Installation complete in "$((end_seconds - start_seconds))" seconds"
+
+cd ../utilities
+# shellcheck source=utilities/get-site-info.sh
+source get-site-info.sh

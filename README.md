@@ -112,19 +112,32 @@ Follow the instructions in the previous section to tell Firefox to use the syste
 7. Restart nginx: `sudo ee stack restart --nginx`
 
 
-### Connect to the Database
+### Configuring SSH Access
 
-In your working directory:
+You'll need to make sure SSH is configured correctly in order to connect to the database at `spiritedmedia.dev`.
+
+Run `vagrant ssh-config --host spiritedmedia.dev`, copy the contents, paste it into your `~/.ssh/config` file.
+
+To SSH directly in to the box you can go to the `spiritedmedia.dev` directory (or any subdirectory) and type `vagrant ssh`.
+
+
+### Connect to the Database + Load a SQL Dump
+
+The final output of the installation script should be some information about the site, including the database credentials. Use these to connect to the database.
+
+To run the site info script again, do the following in this repo's root directory:
 
 1. Navigate to the `utilities` directory: `cd utilities/`
-2. Get the database credentials: `./get-db-info.sh`
+2. Get the database credentials: `./get-site-info.sh`
 3. Note the `DB_USER`, `DB_PASS` values displayed
 
-<img width="682" alt="db-info-output" src="https://cloud.githubusercontent.com/assets/867430/15404473/b0626ad4-1dcb-11e6-8cbd-a3038663d7df.png">
+![image 2019-02-15 at 12 38 11](https://user-images.githubusercontent.com/1757914/52874299-2968ec00-311f-11e9-8229-8bb24ac3253a.png)
+
+Adding an SSH configuration to your `~/.ssh/config` file should allow you to connect to the database at the SSH host `spiritedmedia.dev`.
 
 1. Open [Sequel Pro](http://www.sequelpro.com/)
 2. Switch to the SSH tab to show SSH fields
-3. Enter the following details
+3. Enter the following details, leaving "Connect using SSL" unchecked
 
 | Name         | Value             |
 |--------------|-------------------|
@@ -134,11 +147,13 @@ In your working directory:
 | Database     | spiritedmedia_dev |
 | Port         | 3306 (default)    |
 | SSH Host     | spiritedmedia.dev |
-| SSH User     | ubuntu            |
-| SSH Password | ubuntu            |
-| SSH Port     | <leave blank>     |
+| SSH User     |                   |
+| SSH Password |                   |
+| SSH Port     |                   |
 
-<img width="912" alt="screen shot 2016-05-20 at 12 19 02 pm" src="https://cloud.githubusercontent.com/assets/867430/15434500/217ce97e-1e85-11e6-8acf-6efa3c757b29.png">
+![image 2019-02-15 at 12 39 35](https://user-images.githubusercontent.com/1757914/52874281-18b87600-311f-11e9-99fd-dfcadbaf90df.png)
+
+After you've connected, finally you can import a database dump. Get it from another developer, or [follow the instructions in this document](https://github.com/spiritedmedia/systems/blob/master/database-import/README.md) to get a fresh database dump for local use.
 
 
 ### wp-config-local.php
@@ -150,13 +165,6 @@ In the root of the `public/` directory there's a file called `wp-config-local.ph
 An example local config file should exist already. If the file was somehow deleted, ask a developer for their copy and drop it into place.
 
 More constants can be found on the [wp-config.php codex page](https://codex.wordpress.org/Editing_wp-config.php) or https://gist.github.com/MikeNGarrett/e20d77ca8ba4ae62adf5
-
-
-### SSHing into the box
-
-To SSH directly in to the box you can go to the `spiritedmedia.dev` folder and type `vagrant ssh`.
-
-If you want an SSH config to your `.ssh/config` file then type `vagrant ssh-config`, copy the contents, paste it into your `.ssh/config` file.
 
 
 ### Google Service Account Credentials
