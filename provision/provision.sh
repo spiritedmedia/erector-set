@@ -169,19 +169,35 @@ EOF
     touch credentials/google-service-account-credentials.json
     e_success "Done."
 
+
     e_header "Modifying wp-config.php"
         cd /var/www/spiritedmedia.dev/ || exit
-        # define SUNRISE and set to true. via https://tomjn.com/2014/03/01/wordpress-bash-magic/
-        sudo sed -i "/define( 'BLOG_ID_CURRENT_SITE', 1 );/a define( 'SUNRISE', true );" wp-config.php
-        # define the redis server array for WP Redis plugin
-        # We intentionally break the Redis connection to disable Redis caching locally which is an ugly hack
-        # The real port is 6379
+
+        # Much of this depends on the `WPMU_ACCEL_REDIRECT` constant existing in
+        # `wp-config.php`. If multisite seems to be broken upon first install,
+        # check out the wp-config.php file and make sure these modifications
+        # have been made. If they haven't, it's possible the
+        # `WPMU_ACCEL_REDIRECT` constant is missing, which would cause this
+        # whole procedure to fail.
+        #
+        # Rather than exit with an error, just display a warning since it can be
+        # easily fixed manually.
+        if ! grep -q "'WPMU_ACCEL_REDIRECT', true" wp-config.php ; then
+            e_warning "The WPMU_ACCEL_REDIRECT constant was not found in wp-config.php. Unable to add required multisite constants! You should edit wp-config.php manually and fix this script."
+        fi
+
+        # via https://tomjn.com/2014/03/01/wordpress-bash-magic/
+
+        # Define SUNRISE and set to true.
+        sudo sed -i "/'WPMU_ACCEL_REDIRECT', true/a define( 'SUNRISE', true );" wp-config.php
+
+        # Define the redis server array for WP Redis plugin
+        #
+        # We intentionally break the Redis connection to disable Redis caching
+        # locally which is an ugly hack The real port is 6379
         sudo sed -i "/define( 'SUNRISE', true );/a \$redis_server = array( 'host' => '127.0.0.1', 'port' => 6379 );" wp-config.php
 
-        # include a local wp-config file if it exists...
-        # if ( file_exists( dirname(__FILE__) . '/htdocs/wp-config-local.php') ) {
-        #   include dirname(__FILE__) . '/htdocs/wp-config-local.php';
-        # }
+        # Include a local wp-config file if it exists...
         sudo sed -i "/define( 'SUNRISE', true );/a if ( file_exists( dirname(__FILE__) . '/htdocs/wp-config-local.php') ) { include dirname(__FILE__) . '/htdocs/wp-config-local.php'; }" wp-config.php
 
         # Remove a duplicate define('WP_ALLOW_MULTISITE', true);
