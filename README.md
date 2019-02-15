@@ -141,9 +141,11 @@ In your working directory:
 
 ### wp-config-local.php
 
-If you want to customize values in `wp-config.php` use the file called `wp-config-local.php` in the root of the `public/` directory. This file will get included by `wp-config.php` automagically. An example local config file should exist already – feel free to create the file if it somehow was deleted.
+In the root of the `public/` directory there's a file called `wp-config-local.php`. This file contains environment-specific configuration as well as secrets like API keys. This file will get included by `wp-config.php` automagically.
 
-For values that are `***` ask a dev for the real credentails.
+**You'll need to update the `***` values with real credentials in order to get things working properly.** There will be no obvious error messages until you try and use a feature that requires a valid credential because `wp-config-local.php` is filled with dummy values initially. Ask another developer for the real credentials.
+
+An example local config file should exist already. If the file was somehow deleted, ask a developer for their copy and drop it into place.
 
 More constants can be found on the [wp-config.php codex page](https://codex.wordpress.org/Editing_wp-config.php) or https://gist.github.com/MikeNGarrett/e20d77ca8ba4ae62adf5
 
@@ -155,9 +157,9 @@ To SSH directly in to the box you can go to the `spiritedmedia.dev` folder and t
 If you want an SSH config to your `.ssh/config` file then type `vagrant ssh-config`, copy the contents, paste it into your `.ssh/config` file.
 
 
-### Credentials
+### Google Service Account Credentials
 
-Post installation you will need to SSH in to the box and add our Google Service account credentials to `/var/www/spiritedmedia.dev/credentials/google-service-account-credentials.json`. The contents of this file should be stored in our 1Password vault.
+In addition to setting up `wp-config-local.php` properly, you will need to SSH in to the box and add our Google Service account credentials to `/var/www/spiritedmedia.dev/credentials/google-service-account-credentials.json`. The contents of this file should be stored in our 1Password vault.
 
 
 ## Error Logging
@@ -205,6 +207,7 @@ If for some reason you need to disable full-page caching across the board, follo
 
 
 ## Credits
+
 - [EasyEngine.io](https://easyengine.io/)
 
 Props to the following repos that I borrowed stuff from:
