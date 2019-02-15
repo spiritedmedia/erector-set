@@ -141,39 +141,7 @@ Follow the instructions in the previous section to tell Firefox to use the syste
 
 ### wp-config-local.php
 
-If you want to customize values in `wp-config.php` add a file called `wp-config-local.php` in the root of the `public/` directory. This file will get included by `wp-config.php` automagically.
-
-Recommended items to add to your `wp-config-local.php` file:
-
-```
-<?php
-define( 'WP_DEBUG', true );
-if ( WP_DEBUG ) {
-    // For analyzing database queries i.e. the Debug Bar plugin
-    define( 'SAVEQUERIES', true );
-
-    // Enable debug logging to the /wp-content/debug.log file
-    define( 'WP_DEBUG_LOG', true );
-
-    // Disable the 'trash', posts will be deleted immediately
-    define( 'EMPTY_TRASH_DAYS', 0 );
-
-    // define( 'PEDESTAL_DEBUG_EMAIL_CSS', true );
-}
-
-define( 'WP_ENV', 'development' );
-
-// ActiveCampaign API Credentials
-define( 'ACTIVECAMPAIGN_URL', '***' );
-define( 'ACTIVECAMPAIGN_API_KEY', '***' );
-
-// AWS API Keys for AWS SES wp_mail() drop-in
-define( 'AWS_SES_WP_MAIL_REGION', '***' );
-define( 'AWS_SES_WP_MAIL_KEY', '***' );
-define( 'AWS_SES_WP_MAIL_SECRET', '***' );
-
-define( 'YOUTUBE_DATA_API_KEY', '***' );
-```
+If you want to customize values in `wp-config.php` use the file called `wp-config-local.php` in the root of the `public/` directory. This file will get included by `wp-config.php` automagically. An example local config file should exist already – feel free to create the file if it somehow was deleted.
 
 For values that are `***` ask a dev for the real credentails.
 
@@ -203,7 +171,7 @@ If you defined `WP_DEBUG_LOG` to `true` in your `wp-config-local.php` file you c
 In the directory you cloned Erector Set into...
 
 1. Navigate to the `utilities` directory: `cd utilities/`
-1. Run: `./error-logging.sh` which shows WordPress and PHP error logs
+2. Run: `./error-logging.sh` which shows WordPress and PHP error logs
 
 ### Other Error Logs
 
