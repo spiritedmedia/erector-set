@@ -61,35 +61,6 @@ npm install -g grunt-cli
 After all that's done, run `./install.sh` to kick off the rest of the process. You will be prompted to enter your system's administrator password. Otherwise, please be patient while things install.
 
 
-### Connect to the Database
-
-In your working directory:
-
-1. Navigate to the `utilities` directory: `cd utilities/`
-2. Get the database credentials: `./get-db-info.sh`
-3. Note the `DB_USER`, `DB_PASS` values displayed
-
-<img width="682" alt="db-info-output" src="https://cloud.githubusercontent.com/assets/867430/15404473/b0626ad4-1dcb-11e6-8cbd-a3038663d7df.png">
-
-1. Open [Sequel Pro](http://www.sequelpro.com/)
-2. Switch to the SSH tab to show SSH fields
-3. Enter the following details
-
-| Name         | Value             |
-|--------------|-------------------|
-| MySQL Host   |  127.0.0.1        |
-| Username     | `DB_USER`         |
-| Password     | `DB_PASS`         |
-| Database     | spiritedmedia_dev |
-| Port         | 3306 (default)    |
-| SSH Host     | spiritedmedia.dev |
-| SSH User     | ubuntu            |
-| SSH Password | ubuntu            |
-| SSH Port     | <leave blank>     |
-
-<img width="912" alt="screen shot 2016-05-20 at 12 19 02 pm" src="https://cloud.githubusercontent.com/assets/867430/15434500/217ce97e-1e85-11e6-8acf-6efa3c757b29.png">
-
-
 ### Installing SSL Certs
 
 We need to tell your computer to trust our self-signed SSL certificates.
@@ -137,6 +108,35 @@ Follow the instructions in the previous section to tell Firefox to use the syste
 5. Copy `ssl/02-ca-signed-certificate/spiritedmedia.dev.key` to `/var/www/spiritedmedia.dev/conf/ssl/spiritedmedia.dev.key`
 6. Copy `ssl.conf` to `/var/www/spiritedmedia.dev/conf/nginx/ssl.conf`
 7. Restart nginx: `sudo ee stack restart --nginx`
+
+
+### Connect to the Database
+
+In your working directory:
+
+1. Navigate to the `utilities` directory: `cd utilities/`
+2. Get the database credentials: `./get-db-info.sh`
+3. Note the `DB_USER`, `DB_PASS` values displayed
+
+<img width="682" alt="db-info-output" src="https://cloud.githubusercontent.com/assets/867430/15404473/b0626ad4-1dcb-11e6-8cbd-a3038663d7df.png">
+
+1. Open [Sequel Pro](http://www.sequelpro.com/)
+2. Switch to the SSH tab to show SSH fields
+3. Enter the following details
+
+| Name         | Value             |
+|--------------|-------------------|
+| MySQL Host   |  127.0.0.1        |
+| Username     | `DB_USER`         |
+| Password     | `DB_PASS`         |
+| Database     | spiritedmedia_dev |
+| Port         | 3306 (default)    |
+| SSH Host     | spiritedmedia.dev |
+| SSH User     | ubuntu            |
+| SSH Password | ubuntu            |
+| SSH Port     | <leave blank>     |
+
+<img width="912" alt="screen shot 2016-05-20 at 12 19 02 pm" src="https://cloud.githubusercontent.com/assets/867430/15434500/217ce97e-1e85-11e6-8acf-6efa3c757b29.png">
 
 
 ### wp-config-local.php
