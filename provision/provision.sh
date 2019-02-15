@@ -20,7 +20,7 @@ function update_configs() {
     e_success "Done."
 
     e_header "Moving primary PHP7/Redis config into place"
-        sudo cp redis-php7-modified.conf "$conf_dir/nginx/"
+        sudo cp redis-php7-modified.conf "/etc/nginx/common/"
     e_success "Done."
 
     e_header "Moving local-photon configs into place"
