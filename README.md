@@ -195,13 +195,34 @@ Post installation you will need to SSH in to the box and add our Google Service 
 ## Error Logging
 
 ### debug.log
+
 If you defined `WP_DEBUG_LOG` to `true` in your `wp-config-local.php` file you can watch `public/wp-content/debug.log` in something like Console.app.
 
-### Direct Access to Error Logs
+### Direct Access to WordPress/PHP Error Logs
+
 In the directory you cloned Erector Set into...
 
 1. Navigate to the `utilities` directory: `cd utilities/`
 1. Run: `./error-logging.sh` which shows WordPress and PHP error logs
+
+### Other Error Logs
+
+See [EasyEngine log documentation](https://easyengine.io/docs/commands/log).
+
+The `ee log` commands will log errors to the console in real time, meaning that you need to trigger an error to see a new log message. If you don't know what triggered the error, run the desired command and the locations of the monitored log files will show up. You can view the contents of these files directly.
+
+Some helpful commands:
+
+```
+# To monitor Nginx, PHP, MySQL, WordPress logs
+ee log show
+
+# To reset Nginx, PHP, MySQL, WordPress logs
+ee log reset
+
+ee log show --nginx
+ee log show --mysql
+```
 
 
 ## How to Disable Full Page Caching for Local Environments
