@@ -40,6 +40,9 @@ Vagrant.configure('2') do |config|
   # use under the specified box name.
   config.vm.box = 'ubuntu/bionic64'
 
+  # Set a nice name for the box
+  config.vm.define 'spiritedmedia'
+
   # Private Network (default)
   #
   # A private network is created by default. This is the IP address through
