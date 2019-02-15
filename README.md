@@ -58,6 +58,8 @@ brew cask install sequel-pro
 npm install -g grunt-cli
 ```
 
+It can be useful to run `brew bundle` from time to time in this directory to make sure you're using up-to-date developer tools.
+
 After all that's done, run `./install.sh` to kick off the rest of the process. You will be prompted to enter your system's administrator password. Otherwise, please be patient while things install.
 
 
