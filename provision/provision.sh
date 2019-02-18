@@ -10,7 +10,7 @@ function update_configs() {
 
     e_header "Moving nginx confs into place"
         # Move nginx conf files into place for each mapped domain
-        cd /home/ubuntu/nginx-configs/ || exit
+        cd /home/ubuntu/config/nginx/ || exit
         filenames=(*.dev)
         sudo cp ./*.dev /etc/nginx/sites-available/
         for filename in "${filenames[@]}"
@@ -30,7 +30,7 @@ function update_configs() {
     e_success "Done."
 
     e_header "Moving PHP extension config files into place"
-        cd /home/ubuntu/php-configs/ || exit
+        cd /home/ubuntu/config/php/ || exit
         xdebug_ini_path=$(php --ini | grep xdebug | head -1)
         mods_available_path=$(dirname "$(readlink -f "${xdebug_ini_path//,}")")
         sudo cp ./*.ini "$mods_available_path"/
