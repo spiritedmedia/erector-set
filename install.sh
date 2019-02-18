@@ -33,6 +33,7 @@ if [ "$(ls -A public/)" ]; then
             break
         else
             e_warning "Skipping..."
+            break
         fi
     done
 else
