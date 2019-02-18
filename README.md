@@ -60,7 +60,19 @@ npm install -g grunt-cli
 
 It can be useful to run `brew bundle` from time to time in this directory to make sure you're using up-to-date developer tools.
 
-After all that's done, run `./install.sh` to kick off the rest of the process. You will be prompted to enter your system's administrator password. Otherwise, please be patient while things install.
+### Prepare Database
+
+1. Get a database dump from another developer or [follow the instructions in this document](https://github.com/spiritedmedia/systems/blob/master/database-import/README.md) to get a fresh database dump for local use.
+2. If the file is compressed, uncompress it so you have a `.sql` file
+3. Rename the file to `spiritedmedia_dev.sql`
+4. Move the file to `database/`
+
+During provisioning, this database dump will be imported.
+
+
+### Install
+
+Run `./install.sh` to kick off the rest of the process. You will be prompted to enter your system's administrator password. Otherwise, please be patient while things install.
 
 
 ### Installing SSL Certs
@@ -121,7 +133,7 @@ Run `vagrant ssh-config --host spiritedmedia.dev`, copy the contents, paste it i
 To SSH directly in to the box you can go to the `spiritedmedia.dev` directory (or any subdirectory) and type `vagrant ssh`.
 
 
-### Connect to the Database + Load a SQL Dump
+### Connect to the Database
 
 The final output of the installation script should be some information about the site, including the database credentials. Use these to connect to the database.
 
@@ -153,7 +165,9 @@ Adding an SSH configuration to your `~/.ssh/config` file should allow you to con
 
 ![image 2019-02-15 at 12 39 35](https://user-images.githubusercontent.com/1757914/52874281-18b87600-311f-11e9-99fd-dfcadbaf90df.png)
 
-After you've connected, finally you can import a database dump. Get it from another developer, or [follow the instructions in this document](https://github.com/spiritedmedia/systems/blob/master/database-import/README.md) to get a fresh database dump for local use.
+If you skipped the pre-installation step of adding `database/spiritedmedia_dev.sql`, or there was a problem running that step during initial provisioning, you can import the database now.
+
+Get it from another developer, or [follow the instructions in this document](https://github.com/spiritedmedia/systems/blob/master/database-import/README.md) to get a fresh database dump for local use.
 
 
 ### wp-config-local.php
