@@ -59,7 +59,7 @@ Vagrant.configure('2') do |config|
   # VirtualBox, including other Vagrant machines, different subnets should be
   # used for each.
   #
-  config.vm.network :private_network, id: 'vvv_primary', ip: '192.168.33.10'
+  config.vm.network :private_network, id: 'vvv_primary', ip: '192.168.33.12'
 
   config.vm.provider :hyperv do |_v, override|
     override.vm.network :private_network, id: 'vvv_primary', ip: nil
@@ -67,20 +67,10 @@ Vagrant.configure('2') do |config|
 
   config.vm.hostname = 'spiritedmedia.dev'
 
-  # Recursively fetch the paths to all hosts files
-  paths = Dir[File.join(vagrant_dir, 'config', '**', 'hosts')]
-  # Parse the found hosts files for host names
-  hosts = paths.map do |path|
-    # Read line from file and remove line breaks
-    lines = File.readlines(path).map(&:chomp)
-    # Filter out comments starting with '#'
-    lines.grep(/\A[^#]/)
-  end.flatten.uniq # Remove duplicate entries
-
   if Vagrant.has_plugin? 'vagrant-hostmanager'
     config.hostmanager.enabled = true
     config.hostmanager.manage_host = true
-    config.hostmanager.aliases = hosts
+    config.hostmanager.aliases = %w(billypenn.dev theincline.dev denverite.dev)
   else
     fail_with_message
     <<-HEREDOC
