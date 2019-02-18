@@ -182,29 +182,22 @@ EOF
         #
         # Rather than exit with an error, just display a warning since it can be
         # easily fixed manually.
+        #
+        # via https://tomjn.com/2014/03/01/wordpress-bash-magic/
+        # via https://stackoverflow.com/a/16811411/1801260
         if ! grep -q "'WPMU_ACCEL_REDIRECT', true" wp-config.php ; then
             e_warning "The WPMU_ACCEL_REDIRECT constant was not found in wp-config.php. Unable to add required multisite constants! You should edit wp-config.php manually and fix this script."
         fi
-
-        # via https://tomjn.com/2014/03/01/wordpress-bash-magic/
-
-        # Define SUNRISE and set to true.
-        sudo sed -i "/'WPMU_ACCEL_REDIRECT', true/a define( 'SUNRISE', true );" wp-config.php
-
-        # Define the redis server array for WP Redis plugin
-        #
-        # We intentionally break the Redis connection to disable Redis caching
-        # locally which is an ugly hack The real port is 6379
-        sudo sed -i "/define( 'SUNRISE', true );/a \$redis_server = array( 'host' => '127.0.0.1', 'port' => 6379 );" wp-config.php
-
-        # Include a local wp-config file if it exists...
-        sudo sed -i "/define( 'SUNRISE', true );/a if ( file_exists( dirname(__FILE__) . '/htdocs/wp-config-local.php') ) { include dirname(__FILE__) . '/htdocs/wp-config-local.php'; }" wp-config.php
 
         # Remove a duplicate define('WP_ALLOW_MULTISITE', true);
         sudo sed -i "s/define('WP_ALLOW_MULTISITE', true);//g" wp-config.php
 
         # Remove WP_DEBUG from wp-config.php file
         sudo sed -i "s/define('WP_DEBUG', false);//g" wp-config.php
+
+        # Include necessary additions to wp-config.php before WP is loaded
+        sed -e "/'WPMU_ACCEL_REDIRECT', true/r./wp-config.php" /home/ubuntu/config/wp-config-additions.php
+
     e_success "Done modifying wp-config.php"
 
     e_header "Set the \`php\` binary to point to version 7.0"
