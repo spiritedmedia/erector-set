@@ -59,7 +59,7 @@ Vagrant.configure('2') do |config|
   # VirtualBox, including other Vagrant machines, different subnets should be
   # used for each.
   #
-  config.vm.network :private_network, id: 'vvv_primary', ip: '192.168.33.12'
+  config.vm.network :private_network, id: 'vvv_primary', ip: '192.168.33.10'
 
   config.vm.provider :hyperv do |_v, override|
     override.vm.network :private_network, id: 'vvv_primary', ip: nil
