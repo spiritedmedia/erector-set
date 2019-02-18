@@ -94,6 +94,7 @@ Vagrant.configure('2') do |config|
   config.vm.synced_folder 'config/nginx-configs', '/home/ubuntu/nginx-configs'
   config.vm.synced_folder 'config/php-configs', '/home/ubuntu/php-configs'
   config.vm.synced_folder 'ssl', '/home/ubuntu/ssl'
+  config.vm.synced_folder 'database', '/var/www/spiritedmedia.dev/database'
   config.vm.synced_folder 'public/',
                           '/var/www/spiritedmedia.dev/htdocs',
                           owner: 'www-data',

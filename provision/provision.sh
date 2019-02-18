@@ -207,6 +207,20 @@ EOF
         sudo sed -i "s/define('WP_DEBUG', false);//g" wp-config.php
     e_success "Done modifying wp-config.php"
 
+    e_header "Set the \`php\` binary to point to version 7.0"
+    sudo update-alternatives --set php /usr/bin/php7.0
+    e_success "Done."
+
+    if [ -f /var/www/spiritedmedia.dev/database/spiritedmedia_dev.sql ] ; then
+        e_header "Forcing the usage of WordPress 4.9 until we officially support 5.0"
+        cd htdocs || exit
+        wp db import spiritedmedia_dev.sql
+        wp core update --version=4.9 --force
+        e_success "Done."
+    else
+        e_warning "SQL dump not found. You'll need to complete the rest of the installation manually."
+    fi
+
     e_success "All done. Restarting the stack."
     sudo ee stack restart
 fi
