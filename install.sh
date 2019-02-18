@@ -99,6 +99,10 @@ source bin/install.sh
 grunt build
 e_success "Done."
 
+e_header "Copying object-cache.php to wp-content"
+cp wp-content/plugins/wp-redis/object-cache.php wp-content/
+e_success "Done."
+
 # And it's done
 end_seconds="$(date +%s)"
 e_success "Installation complete in "$((end_seconds - start_seconds))" seconds"
