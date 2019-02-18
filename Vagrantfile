@@ -70,7 +70,7 @@ Vagrant.configure('2') do |config|
   if Vagrant.has_plugin? 'vagrant-hostmanager'
     config.hostmanager.enabled = true
     config.hostmanager.manage_host = true
-    config.hostmanager.aliases = %w(billypenn.dev theincline.dev denverite.dev)
+    config.hostmanager.aliases = %w[billypenn.dev theincline.dev denverite.dev]
   else
     fail_with_message
     <<-HEREDOC
