@@ -204,15 +204,20 @@ EOF
     sudo update-alternatives --set php /usr/bin/php7.0
     e_success "Done."
 
-    if [ -f /var/www/spiritedmedia.dev/database/spiritedmedia_dev.sql ] ; then
-        e_header "Forcing the usage of WordPress 4.9 until we officially support 5.0"
-        cd htdocs || exit
-        wp db import spiritedmedia_dev.sql
-        wp core update --version=4.9 --force
+    cd htdocs || exit
+
+    sql_path='/var/www/spiritedmedia.dev/database/spiritedmedia_dev.sql'
+    if [ -f $sql_path ] ; then
+        e_header "Importing database..."
+        wp db import $sql_path --allow-root
         e_success "Done."
     else
         e_warning "SQL dump not found. You'll need to complete the rest of the installation manually."
     fi
+
+    e_header "Forcing the usage of WordPress 4.9 until we officially support 5.0"
+        wp core update --version=4.9.8 --force --allow-root
+    e_success "Done."
 
     e_success "All done. Restarting the stack."
     sudo ee stack restart
