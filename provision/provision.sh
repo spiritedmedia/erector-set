@@ -196,7 +196,7 @@ EOF
         sudo sed -i "s/define('WP_DEBUG', false);//g" wp-config.php
 
         # Include necessary additions to wp-config.php before WP is loaded
-        sed -e "/'WPMU_ACCEL_REDIRECT', true/r./wp-config.php" /home/ubuntu/config/wp-config-additions.txt
+        sudo sed -i '/WPMU_ACCEL_REDIRECT/ r /home/ubuntu/config/wp-config-additions.txt' wp-config.php
 
     e_success "Done modifying wp-config.php"
 
