@@ -29,11 +29,11 @@ function update_configs() {
         sudo chown -R www-data: /var/www/spiritedmedia.dev/photon/
     e_success "Done."
 
-    e_header "Moving PHP extension config files into place"
+    e_header "Moving Xdebug PHP extension config file into place"
         cd /home/ubuntu/config/php/ || exit
         xdebug_ini_path=$(php --ini | grep xdebug | head -1)
         mods_available_path=$(dirname "$(readlink -f "${xdebug_ini_path//,}")")
-        sudo cp ./*.ini "$mods_available_path"/
+        sudo cp xdebug.ini "$mods_available_path"/
     e_success "Done."
 
     e_header "Moving SSL files into place"
@@ -50,6 +50,8 @@ function update_configs() {
 
     e_success "All done. Restarting the stack."
     sudo ee stack restart
+    # Make sure Xdebug is running
+    sudo ee debug --php7
 }
 
 if command_exists ee ; then
@@ -131,6 +133,10 @@ extension=gmagick.so
 EOF
     e_success "Done."
 
+    e_header "Set the \`php\` binary to point to version 7.0"
+    sudo update-alternatives --set php /usr/bin/php7.0
+    e_success "Done."
+
     e_header "Installing image libraries"
     sudo apt-get install --yes optipng pngquant jpegoptim webp
     # Link the tools to /usr/local/bin/* which is what the Photon script expects
@@ -169,7 +175,6 @@ EOF
     touch credentials/google-service-account-credentials.json
     e_success "Done."
 
-
     e_header "Modifying wp-config.php"
         cd /var/www/spiritedmedia.dev/ || exit
 
@@ -199,10 +204,6 @@ EOF
         sudo sed -i '/WPMU_ACCEL_REDIRECT/ r /home/ubuntu/config/wp-config-additions.txt' wp-config.php
 
     e_success "Done modifying wp-config.php"
-
-    e_header "Set the \`php\` binary to point to version 7.0"
-    sudo update-alternatives --set php /usr/bin/php7.0
-    e_success "Done."
 
     cd htdocs || exit
 

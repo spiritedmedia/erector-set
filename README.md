@@ -219,6 +219,49 @@ ee log show --mysql
 ```
 
 
+## Setting Up Remote Debugging
+
+Remote debugging allows you to debug PHP on our Vagrant box.
+
+The box is configured for remote debugging already. You'll have to set it up in your editor/IDE. That approach will be different for every editor, but @montchr has tested with Visual Studio Code.
+
+N.B. There may be more steps to this process but we haven't checked because that would require a complete teardown of our editor and browser extensions. We should also test remote debugging with Atom and maybe Sublime Text 3.
+
+### VS Code
+
+Install the [PHP Debug extension](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug)
+
+Next, add a `launch.json` debugging configuration for PHP [as described here](https://marketplace.visualstudio.com/items?itemName=felixfbecker.php-debug#user-content-vs-code-configuration). Make sure you add a `pathMappings` property to map the remote webroot to the webroot on your local machine (aka the `public/` directory). Here's @montchr's `launch.json` as an example:
+
+```json
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Listen for XDebug",
+      "type": "php",
+      "request": "launch",
+      "port": 9000,
+      "pathMappings": {
+        "/var/www/spiritedmedia.dev/htdocs": "${workspaceRoot}"
+      }
+    },
+    {
+      "name": "Launch currently open script",
+      "type": "php",
+      "request": "launch",
+      "program": "${file}",
+      "cwd": "${fileDirname}",
+      "port": 9000
+    }
+  ]
+}
+```
+
+
 ## How to Disable Full Page Caching for Local Environments
 
 Full-page caching is enabled for non-logged in visitors on the local environment. This includes (almost) every request that goes through PHP, including images passing through Photon.
