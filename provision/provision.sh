@@ -39,13 +39,14 @@ function update_configs() {
     e_header "Moving SSL files into place"
         cd /home/ubuntu/ssl/ || exit
         ssl_conf_dir="$conf_dir/ssl"
-        sudo mkdir $ssl_conf_dir || exit
+        if [ ! -d $ssl_conf_dir ] ; then
+            sudo mkdir $ssl_conf_dir || exit
+        fi
         sudo cp spiritedmedia.dev.crt $ssl_conf_dir/
         sudo cp 02-ca-signed-certificate/spiritedmedia.dev.key $ssl_conf_dir/
         sudo cp ssl.conf "$conf_dir/nginx/"
     e_success "Done."
 
-    e_header "Cleaning up"
     cd ../ || exit
 
     e_success "All done. Restarting the stack."

@@ -273,6 +273,13 @@ If for some reason you need to disable full-page caching across the board, follo
  - That should automatically restart nginx but if not run `sudo ee stack restart --nginx`
 
 
+## Subsequent Provisioning
+
+If you need to update some config file it's best to make changes in this repo and run `vagrant provision` to overwrite the files on the box. See the `update_configs()` function in [`provision/provision.sh`](provision/provision.sh) for more information about what will be overwritten.
+
+Note that `wp-config.php` will not be modified. If you need to make updates to WP configuration, consider whether those changes would be better off in `wp-config-local.php`. If they should be permanent, then add them directly to `/var/www/spiritedmedia.dev/wp-config.php` and also add them to this repo's `config/wp-config-additions.txt` so they'll be added to new boxes. See #12 for more information.
+
+
 ## Credits
 
 - [EasyEngine.io](https://easyengine.io/)
