@@ -38,12 +38,18 @@ function update_configs() {
 
     e_header "Moving SSL files into place"
         cd /home/ubuntu/ssl/ || exit
+
         ssl_conf_dir="$conf_dir/ssl"
         if [ ! -d $ssl_conf_dir ] ; then
             sudo mkdir $ssl_conf_dir || exit
         fi
+
         sudo cp spiritedmedia.dev.crt $ssl_conf_dir/
+        sudo cp spiritedmedia.dev.crt /var/www/22222/cert/22222.crt
+
         sudo cp 02-ca-signed-certificate/spiritedmedia.dev.key $ssl_conf_dir/
+        sudo cp 02-ca-signed-certificate/spiritedmedia.dev.key /var/www/22222/cert/22222.key
+
         sudo cp ssl.conf "$conf_dir/nginx/"
     e_success "Done."
 
