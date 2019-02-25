@@ -88,8 +88,7 @@ W: GPG error: http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine
 E: The repository 'http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release' is not signed.
 ```
 
- If that happens, try running the script again. Not sure why that works but it does!
-
+If that happens, try running the script again. Not sure why that works but it does! Unfortunately, it might take a few tries. @montchr has tried to find a better way of preventing this from happening but it seems the GPG key has been removed from all keyservers and any recommended fixes seem to point to upgrading to EasyEngine 4.
 
 ### Installing SSL Certs
 
