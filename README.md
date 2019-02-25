@@ -74,6 +74,22 @@ During provisioning, this database dump will be imported.
 
 Run `./install.sh` to kick off the rest of the process. You will be prompted to enter your system's administrator password. Otherwise, please be patient while things install.
 
+You might run into a common error after the log message `Fixing missing GPG keys, please wait...` and it'll tell you to check out the error log. It has something to do with a missing GPG key:
+
+```
+vagrant@spiritedmedia:~$ sudo tail /var/log/ee/ee.log
+Get:7 http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release [1014 B]
+Hit:8 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+Hit:9 http://ppa.launchpad.net/ondrej/php/ubuntu bionic InRelease
+Get:10 http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release.gpg [481 B]
+Ign:10 http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release.gpg
+Reading package lists...
+W: GPG error: http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 3050AC3CD2AE6F03
+E: The repository 'http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release' is not signed.
+```
+
+ If that happens, try running the script again. Not sure why that works but it does!
+
 
 ### Installing SSL Certs
 
