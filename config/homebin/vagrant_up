@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# This script is run whenever `vagrant up` or `vagrant reload` is used to power
+# on the virtual machine.
+
+sudo ee stack restart --redis

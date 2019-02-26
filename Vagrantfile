@@ -107,4 +107,41 @@ Vagrant.configure('2') do |config|
     s.privileged = false
     s.inline = "sudo sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile" # rubocop:disable LineLength
   end
+
+  # Vagrant Triggers
+  #
+  # Run various scripts on Vagrant state changes like `vagrant up`, `vagrant
+  # halt`, `vagrant suspend`, and `vagrant destroy`
+  #
+  # Refer to VVV for more details and examples.
+  config.trigger.after :up do |trigger|
+    trigger.name = 'Post-Up'
+    trigger.run_remote = { inline: '/vagrant/config/homebin/vagrant_up' }
+    trigger.on_error = :continue
+  end
+  # config.trigger.before :reload do |trigger|
+  #   trigger.name = 'Pre-Reload'
+  #   trigger.run_remote = { inline: '/vagrant/config/homebin/vagrant_halt' }
+  #   trigger.on_error = :continue
+  # end
+  config.trigger.after :reload do |trigger|
+    trigger.name = 'Post-Reload'
+    trigger.run_remote = { inline: '/vagrant/config/homebin/vagrant_up' }
+    trigger.on_error = :continue
+  end
+  # config.trigger.before :halt do |trigger|
+  #   trigger.name = 'Pre-Halt'
+  #   trigger.run_remote = { inline: '/vagrant/config/homebin/vagrant_halt' }
+  #   trigger.on_error = :continue
+  # end
+  # config.trigger.before :suspend do |trigger|
+  #   trigger.name = 'Pre-Suspend'
+  #   trigger.run_remote = { inline: '/vagrant/config/homebin/vagrant_suspend' }
+  #   trigger.on_error = :continue
+  # end
+  # config.trigger.before :destroy do |trigger|
+  #   trigger.name = 'Pre-Destroy'
+  #   trigger.run_remote = { inline: '/vagrant/config/homebin/vagrant_destroy' }
+  #   trigger.on_error = :continue
+  # end
 end
