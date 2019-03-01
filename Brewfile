@@ -9,7 +9,6 @@ brew 'git'
 brew 'php@7.1', args: ['with-pear']
 brew 'composer'
 brew 'node'
-brew 'yarn'
 # Required for generating new SSL certificates
 brew 'openssl'
 

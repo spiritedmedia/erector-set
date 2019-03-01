@@ -12,14 +12,12 @@ ROOT_DIR=$(pwd)
 # end of this script.
 start_seconds="$(date +%s)"
 
-if ! command_exists yarn ; then
-    e_error "Yarn isn't installed. You need that to build the theme."
-fi
+e_header "Installing Grunt and Yarn"
+npm install -g grunt-cli yarn
+e_success "Done."
+
 if ! command_exists composer ; then
     e_error "Composer isn't installed. You need that to build the theme."
-fi
-if ! command_exists grunt ; then
-    e_error "Grunt isn't installed. You need that to build the theme."
 fi
 
 # Check if the /public directory is empty or not
