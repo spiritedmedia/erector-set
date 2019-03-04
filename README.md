@@ -34,31 +34,40 @@ _Note: You'll need the [vagrant-hostsupdater](https://github.com/cogitatio/vagra
 
 # Clone the repo and move into it
 git clone https://github.com/spiritedmedia/erector-set.git spiritedmedia.dev && cd spiritedmedia.dev
-
-# Install basic host dependencies on your computer
-#
-# This will take a while.
-#
-# Or instead of running this command you can open `Brewfile` and install each of
-# the listed dependencies manually e.g. `brew install coreutils`
-#
-# If Vagrant and VirtualBox aren't installed already, they'll be installed now
-brew bundle
-
-# Make sure your Vagrant version is at least 2.1.x
-vagrant -v
-# If it's lower than 2.1.x, then update it
-brew cask reinstall vagrant
-
-# Optionally install Sequel Pro for connecting to the database with a GUI
-brew cask install sequel-pro
-
-# Install Grunt globally -- every other Node dependency will be installed
-# within the project
-npm install -g grunt-cli
 ```
 
-It can be useful to run `brew bundle` from time to time in this directory to make sure you're using up-to-date developer tools.
+Install basic host dependencies on your computer. Feel free to skip any
+dependencies you know you have already.
+
+```sh
+# PHP 7.1 is needed to run PHPCS and set up linting and debugging tools in your editor
+brew install php@7.1
+brew install composer
+brew install node
+# OpenSSL is needed to generate new SSL certificates
+brew install openssl
+```
+
+If you don't have [Vagrant](https://www.vagrantup.com/) or
+[VirtualBox](https://www.virtualbox.org/) installed you'll need to install them.
+VirtualBox is a prequisite of Vagrant so the installation order matters. You can
+install them manually or with [Homebrew Cask](https://github.com/Homebrew/homebrew-cask) (included with Homebrew).
+
+```sh
+brew cask install virtualbox
+brew cask install vagrant
+```
+
+If you already have Vagrant installed, make sure your Vagrant version is at
+least 2.1.x with `vagrant -v`. If it's lower than 2.1.x, then update it manually
+or with `brew cask reinstall vagrant`.
+
+Optionally install Sequel Pro for connecting to the database with a GUI. You
+should [install the nightly version](https://sequelpro.com/test-builds) because
+the current stable version as of 2019-03-04
+[has some issues](https://github.com/sequelpro/sequelpro/issues/2932) with importing
+`utf8mb4`-encoded databases, which we need to preserve emojis.
+
 
 ### Prepare Database
 
