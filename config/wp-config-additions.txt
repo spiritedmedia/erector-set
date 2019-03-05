@@ -1,5 +1,4 @@
 // Begin wp-config.php additions
-define( 'SUNRISE', true );
 $redis_server = array( 'host' => '127.0.0.1', 'port' => 6379 );
 define( 'WP_ALLOW_MULTISITE', true );
 define( 'MULTISITE', true );
