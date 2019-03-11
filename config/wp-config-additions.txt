@@ -1,0 +1,13 @@
+// Begin wp-config.php additions
+$redis_server = array( 'host' => '127.0.0.1', 'port' => 6379 );
+define( 'WP_ALLOW_MULTISITE', true );
+define( 'MULTISITE', true );
+define( 'SUBDOMAIN_INSTALL', true );
+$base = '/';
+define( 'DOMAIN_CURRENT_SITE', 'spiritedmedia.dev' );
+define( 'PATH_CURRENT_SITE', '/' );
+define( 'SITE_ID_CURRENT_SITE', 1 );
+define( 'BLOG_ID_CURRENT_SITE', 1 );
+
+if ( file_exists( dirname(__FILE__) . '/htdocs/wp-config-local.php') ) { include dirname(__FILE__) . '/htdocs/wp-config-local.php'; }
+// End wp-config.php additions

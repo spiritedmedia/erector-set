@@ -1,0 +1,9 @@
+Layout/IndentHeredoc:
+  Enabled: false
+
+Metrics/BlockLength:
+  Exclude:
+    - 'Vagrantfile'
+
+Style/NegatedIf:
+  EnforcedStyle: 'postfix'
