@@ -83,21 +83,6 @@ During provisioning, this database dump will be imported.
 
 Run `./install.sh` to kick off the rest of the process. You will be prompted to enter your system's administrator password. Otherwise, please be patient while things install.
 
-You might run into a common error after the log message `Fixing missing GPG keys, please wait...` and it'll tell you to check out the error log. It has something to do with a missing GPG key:
-
-```
-vagrant@spiritedmedia:~$ sudo tail /var/log/ee/ee.log
-Get:7 http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release [1014 B]
-Hit:8 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
-Hit:9 http://ppa.launchpad.net/ondrej/php/ubuntu bionic InRelease
-Get:10 http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release.gpg [481 B]
-Ign:10 http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release.gpg
-Reading package lists...
-W: GPG error: http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 3050AC3CD2AE6F03
-E: The repository 'http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release' is not signed.
-```
-
-If that happens, try running the script again. Not sure why that works but it does! Unfortunately, it might take a few tries. @montchr has tried to find a better way of preventing this from happening but it seems the GPG key has been removed from all keyservers and any recommended fixes seem to point to upgrading to EasyEngine 4.
 
 ### Installing SSL Certs
 
@@ -299,9 +284,84 @@ If for some reason you need to disable full-page caching across the board, follo
 
 ## Subsequent Provisioning
 
-If you need to update some config file it's best to make changes in this repo and run `vagrant provision` to overwrite the files on the box. See the `update_configs()` function in [`provision/provision.sh`](provision/provision.sh) for more information about what will be overwritten.
+If you need to update some config file it's best to make changes in this repo
+and run `vagrant provision` to overwrite the files on the box. See the
+`update_configs()` function in
+[`provision/provision.sh`](provision/provision.sh) for more information about
+what will be overwritten.
 
-Note that `wp-config.php` will not be modified. If you need to make updates to WP configuration, consider whether those changes would be better off in `wp-config-local.php`. If they should be permanent, then add them directly to `/var/www/spiritedmedia.dev/wp-config.php` and also add them to this repo's `config/wp-config-additions.txt` so they'll be added to new boxes. See #12 for more information.
+Note that `wp-config.php` will not be modified. If you need to make updates to
+WP configuration, consider whether those changes would be better off in
+`wp-config-local.php`. If they should be permanent, then add them directly to
+`/var/www/spiritedmedia.dev/wp-config.php` and also add them to this repo's
+`config/wp-config-additions.txt` so they'll be added to new boxes. See #12 for
+more information.
+
+
+## Common Issues
+
+### EasyEngine GPG Keys
+
+During the installation process, you might run into a common error after the log
+message `Fixing missing GPG keys, please wait...` and it'll tell you to check
+out the error log. It has something to do with a missing GPG key:
+
+```
+vagrant@spiritedmedia:~$ sudo tail /var/log/ee/ee.log
+Get:7 http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release [1014 B]
+Hit:8 http://archive.ubuntu.com/ubuntu bionic-backports InRelease
+Hit:9 http://ppa.launchpad.net/ondrej/php/ubuntu bionic InRelease
+Get:10 http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release.gpg [481 B]
+Ign:10 http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release.gpg
+Reading package lists...
+W: GPG error: http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release: The following signatures couldn't be verified because the public key is not available: NO_PUBKEY 3050AC3CD2AE6F03
+E: The repository 'http://download.opensuse.org/repositories/home:/rtCamp:/EasyEngine/xUbuntu_18.04  Release' is not signed.
+```
+
+If that happens, try running the script again. Not sure why that works but it
+does! Unfortunately, it might take a few tries.
+
+@montchr has tried to find a better way of preventing this from happening but it
+seems the GPG key has been removed from all keyservers and any recommended fixes
+seem to point to upgrading to EasyEngine 4...
+
+### Test Emails (SES) Not Sending
+
+N.B. As of 2019-03-15 Denverite does not currently have an email set up within
+SES. That means test emails cannot be sent (but no error messages will appear
+due to the current implementation of the sending process).
+
+First of all, make sure you have the credentials set up properly. If that's not
+the problem, you might be seeing an error like this:
+
+```
+( ! ) Warning: Sendmail SES Email failed: 0 Error executing "SendEmail" on "https://email.us-east-1.amazonaws.com"; AWS HTTP error: Client error: `POST https://email.us-east-1.amazonaws.com` resulted in a `403 Forbidden` response: <ErrorResponse xmlns="http://ses.amazonaws.com/doc/2010-12-01/"> <Error> <Type>Sender</Type> <Code>SignatureDo (truncated...) SignatureDoesNotMatch (client): Signature expired: 20190314T185737Z is now earlier than 20190314T191029Z (20190314T191529Z - 5 min.) - <ErrorResponse xmlns="http://ses.amazonaws.com/doc/2010-12-01/"> <Error> <Type>Sender</Type> <Code>SignatureDoesNotMatch</Code> <Message>Signature expired: 20190314T185737Z is now earlier than 20190314T191029Z (20190314T191529Z - 5 min.)</Message> </Error> <RequestId>87b04526-468d-11e9-9dee-b920b0ff31e6</RequestId> </ErrorResponse> in /var/www/spiritedmedia.dev/htdocs/wp-content/plugins/aws-ses-wp-mail/aws-ses-wp-mail.php on line 31
+Call Stack
+#    Time    Memory    Function    Location
+1    0.0020    369456    {main}( )    .../user-new.php:0
+2    1.0361    8265480    wpmu_activate_signup( string(16) )    .../user-new.php:162
+3    1.0368    8268456    wpmu_create_user( string(11), string(12), string(14) )    .../ms-functions.php:1063
+4    1.4326    8445344    do_action( string(13), long )    .../ms-functions.php:1154
+5    1.4326    8445720    WP_Hook->do_action( array(1) )    .../plugin.php:453
+6    1.4326    8445720    WP_Hook->apply_filters( string(0), array(1) )    .../class-wp-hook.php:310
+7    1.4326    8446848    newuser_notify_siteadmin( long )    .../class-wp-hook.php:286
+8    1.4343    8513488    wp_mail( string(21), string(34), string(139), ???, ??? )    .../ms-functions.php:1338
+9    1.6248    9023984    trigger_error ( string(840), long )    .../aws-ses-wp-mail.php:31
+```
+
+With the key message being:
+
+> Signature expired: 20190314T185737Z is now earlier than 20190314T191029Z
+> (20190314T191529Z - 5 min.)
+
+To fix this issue: `cd utilities && ./reset-clock.sh`
+
+This happens sometimes when the system clock gets out of sync.
+
+See the Slack archives for more background:
+
+https://spiritedmedia.slack.com/archives/G4KSJLJ67/p1552590978003200
+https://spiritedmedia.slack.com/archives/C02KP1SEA/p1480440231001636
 
 
 ## Credits
