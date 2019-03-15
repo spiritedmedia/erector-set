@@ -6,4 +6,4 @@
 # https://spiritedmedia.slack.com/archives/C02KP1SEA/p1480440231001636
 
 cd ../ || exit
-vagrant ssh -- -t 'sudo /usr/sbin/ntpdate 0.north-america.pool.ntp.org 1.north-america.pool.ntp.org 2.north-america.pool.ntp.org 3.north-america.pool.ntp.org; exit;'
+vagrant ssh -- -t 'sudo systemctl daemon-reload && sudo timedatectl set-ntp off && sudo timedatectl set-ntp on; exit;'
