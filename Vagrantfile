@@ -4,14 +4,14 @@
 #
 # Vagrant Host Manager updates the host file on the host machine so fancy
 # hostnames work automagically
-required_plugins = %w[vagrant-hostmanager]
+required_plugins = %w[vagrant-hostmanager vagrant-disksize]
 required_plugins.each do |plugin|
   if !((Vagrant.has_plugin? plugin) || ARGV[0] == 'plugin')
     exec "vagrant plugin install #{plugin};vagrant #{ARGV.join(' ')}"
   end
 end
 
-vagrant_dir = File.expand_path(__dir__)
+# vagrant_dir = File.expand_path(__dir__)
 
 Vagrant.configure('2') do |config|
   # Configurations from 1.0.x can be placed in Vagrant 1.1.x specs like the
@@ -77,6 +77,8 @@ Vagrant.configure('2') do |config|
 "vagrant-hostmanager missing, please install the plugin with this command:\nvagrant plugin install vagrant-hostmanager"
     HEREDOC
   end
+
+  config.disksize.size = '50GB' if Vagrant.has_plugin? 'vagrant-disksize'
 
   # Sync some files and directories with the VM
   #

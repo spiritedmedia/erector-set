@@ -26,8 +26,6 @@ The multiste is set-up to use subdomains for each site. We map domain names to a
 
 You'll need some basic tools on your machine to get started. Run the following commands in your terminal app (either Terminal.app or [iTerm2](https://www.iterm2.com/)):
 
-_Note: You'll need the [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater) plugin but Vagrant will install it for you automatically :)_
-
 ```sh
 # Install Homebrew if it's not installed already
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
@@ -48,6 +46,8 @@ brew install node
 brew install openssl
 ```
 
+### Vagrant / VirtualBox
+
 If you don't have [Vagrant](https://www.vagrantup.com/) or
 [VirtualBox](https://www.virtualbox.org/) installed you'll need to install them.
 VirtualBox is a prequisite of Vagrant so the installation order matters. You can
@@ -62,7 +62,15 @@ If you already have Vagrant installed, make sure your Vagrant version is at
 least 2.1.x with `vagrant -v`. If it's lower than 2.1.x, then update it manually
 or with `brew cask reinstall vagrant`.
 
-Optionally install Sequel Pro for connecting to the database with a GUI. You
+You'll need a couple Vagrant plugins, however they should be installed
+automatically:
+
+- [vagrant-hostsupdater](https://github.com/cogitatio/vagrant-hostsupdater)
+- [vagrant-disksize](https://github.com/sprotheroe/vagrant-disksize)
+
+### Sequel Pro Nightly
+
+Install Sequel Pro for connecting to the database with a GUI. You
 should [install the nightly version](https://sequelpro.com/test-builds) because
 the current stable version as of 2019-03-04
 [has some issues](https://github.com/sequelpro/sequelpro/issues/2932) with importing
