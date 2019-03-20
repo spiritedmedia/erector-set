@@ -91,6 +91,13 @@ else
         e_success "Done installing Subversion."
     fi
 
+    if ! command_exists ncdu ; then
+        e_header "Installing ncdu"
+        sudo apt-get update
+        sudo apt-get --yes install ncdu
+        e_success "Done installing ncdu."
+    fi
+
     e_header "Setting Global Git Config"
     # EasyEngine needs our name and email for Git reasons, without it the script will fail
     sudo git config --global user.email "systems@spiritedmedia.com"
