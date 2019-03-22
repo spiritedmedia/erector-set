@@ -164,7 +164,7 @@ To run the site info script again, do the following in this repo's root director
 
 Adding an SSH configuration to your `~/.ssh/config` file should allow you to connect to the database at the SSH host `spiritedmedia.dev`.
 
-1. Open [Sequel Pro](http://www.sequelpro.com/)
+1. Open Sequel Pro
 2. Switch to the SSH tab to show SSH fields
 3. Enter the following details, leaving "Connect using SSL" unchecked
 
@@ -184,7 +184,13 @@ Adding an SSH configuration to your `~/.ssh/config` file should allow you to con
 
 If you skipped the pre-installation step of adding `database/spiritedmedia_dev.sql`, or there was a problem running that step during initial provisioning, you can import the database now.
 
-Get it from another developer, or [follow the instructions in this document](https://github.com/spiritedmedia/systems/blob/master/database-import/README.md) to get a fresh database dump for local use.
+Get it from another developer, or [follow the instructions in this document](https://github.com/spiritedmedia/systems/blob/master/database-import/README.md)
+to get a fresh database dump for local use.
+
+If you need to add yourself as a super-admin user, follow the instructions in
+the ["Adding A New Super-Admin Manually"](https://github.com/spiritedmedia/systems/tree/master/database-import#adding-a-new-super-admin-manually)
+section in the Systems repo.
+
 
 
 ### wp-config-local.php
